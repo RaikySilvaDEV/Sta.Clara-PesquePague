@@ -44,3 +44,108 @@
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
   }
+
+  /* ── MOBILE OPTIMIZATIONS FOR QUICK MENU READING ── */
+  @media (max-w: 639.98px) {
+    /* Reduce vertical spacing between sections and margins */
+    main.py-16 {
+      padding-top: 2rem !important;
+      padding-bottom: 2rem !important;
+      gap: 2.5rem !important;
+    }
+    
+    .scroll-mt-32 {
+      scroll-margin-top: 7rem !important;
+    }
+
+    #peixes, #porcoes, #bebidas, #sobremesas {
+      margin-top: 0 !important;
+      margin-bottom: 2rem !important;
+    }
+
+    /* Section Headers */
+    .scroll-mt-32 .flex.items-center.gap-3 {
+      margin-bottom: 1rem !important;
+    }
+    
+    .scroll-mt-32 h2 {
+      font-size: 1.15rem !important;
+      letter-spacing: 0.03em !important;
+    }
+
+    /* Grid layout gap */
+    #peixes .grid, #porcoes .grid, #bebidas .grid, #sobremesas .grid {
+      gap: 0.75rem !important;
+    }
+
+    /* Outer Menu Card */
+    .menu-item {
+      flex-direction: row !important;
+      align-items: flex-start !important;
+      gap: 0.75rem !important; /* gap-3 */
+      padding: 0.75rem !important; /* p-3 */
+      border-radius: 1rem !important;
+    }
+
+    /* Compact Product Image */
+    .menu-item img {
+      width: 4.5rem !important; /* 72px */
+      height: 4.5rem !important; /* 72px */
+      border-radius: 0.5rem !important;
+    }
+
+    /* Text Container Alignment */
+    .menu-item .flex-1 {
+      text-align: left !important;
+    }
+
+    /* Title & Price Header Row */
+    .menu-item .flex-1 > div:first-of-type {
+      flex-direction: row !important;
+      justify-content: space-between !important;
+      align-items: flex-start !important;
+      gap: 0.5rem !important;
+      margin-bottom: 0.25rem !important;
+    }
+
+    /* Left side wrapper for Title and Badge */
+    .menu-item .flex-1 > div:first-of-type > div {
+      text-align: left !important;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.15rem;
+    }
+
+    /* Product Title */
+    .menu-item h3 {
+      font-size: 0.9rem !important;
+      line-height: 1.2 !important;
+    }
+
+    /* Badges */
+    .menu-item span.inline-block {
+      font-size: 8px !important;
+      padding: 0.1rem 0.35rem !important;
+      margin-top: 0px !important;
+      margin-bottom: 0px !important;
+    }
+
+    /* Product Price */
+    .menu-item span.font-serif.italic {
+      font-size: 0.95rem !important;
+      margin-top: 0 !important;
+    }
+
+    /* Description (Line Clamp 2) */
+    .menu-item p {
+      font-size: 0.72rem !important;
+      line-height: 1.35 !important;
+      color: rgba(92, 61, 30, 0.8) !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+    }
+  }
