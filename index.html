@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pesque & Pague Santa Clara — Franca, SP</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        lago: '#2E6B5E',
+        lago2: '#1a4a3f',
+        agua: '#4A9E8A',
+        agua2: '#7BBFB0',
+        terra: '#5C3D1E',
+        terra2: '#8B5E3C',
+        areia: '#F5EDD0',
+        areia2: '#EDE0B8',
+        folha: '#3A5C2A',
+        folha2: '#5C8A48',
+        laranja: '#D4641A',
+        laranja2: '#F0823A',
+        creme: '#FDF8EE',
+      },
+      fontFamily: {
+        serif: ['Playfair Display', 'serif'],
+        sans: ['Inter', 'sans-serif'],
+        script: ['Dancing Script', 'cursive'],
+      },
+    }
+  }
+}
+</script>
+<style>
+  /* ── GRAIN ── */
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9000;opacity:.03;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)'/%3E%3C/svg%3E");
+  mix-blend-mode:multiply}
+
+  /* ── CUSTOM CURSOR ── */
+  *{cursor:none}
+  #cur{position:fixed;width:10px;height:10px;background:#2E6B5E;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:background .2s,transform .1s;mix-blend-mode:multiply}
+  #cur-ring{position:fixed;width:36px;height:36px;border:1.5px solid #2E6B5E;border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s cubic-bezier(.16,1,.3,1),height .3s cubic-bezier(.16,1,.3,1),opacity .3s;opacity:.5}
+  #cur-ring.big{width:54px;height:54px;opacity:.25}
+
+  /* ── SCROLL PROGRESS ── */
+  #progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#2E6B5E,#D4641A);z-index:9997;transition:width .1s linear}
+
+  /* ── ÁGUA ANIMADA ── */
+  .wave{animation:wave 3s ease-in-out infinite}
+  .wave2{animation:wave 4s ease-in-out infinite reverse}
+  @keyframes wave{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+  /* ── FLOAT ── */
+  .float{animation:float 5s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(2deg)}}
+
+  /* ── RIPPLE ── */
+  .ripple{position:relative;overflow:hidden}
+  .ripple::after{content:'';position:absolute;border-radius:50%;background:rgba(255,255,255,.3);transform:scale(0);animation:none;pointer-events:none}
+  .ripple:active::after{animation:rippleAnim .5s ease-out}
+  @keyframes rippleAnim{to{transform:scale(4);opacity:0}}
+
+  /* ── MARQUEE ── */
+  .marquee-track{animation:marquee 28s linear infinite;display:flex;gap:0;width:max-content}
+  .marquee-track:hover{animation-play-state:paused}
+  @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ── REVEAL ── */
+  .rv{opacity:0;transform:translateY(32px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1)}
+  .rv.on{opacity:1;transform:translateY(0)}
+  .rv-l{opacity:0;transform:translateX(-32px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1)}
+  .rv-l.on{opacity:1;transform:translateX(0)}
+  .rv-r{opacity:0;transform:translateX(32px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1)}
+  .rv-r.on{opacity:1;transform:translateX(0)}
+  .rv-scale{opacity:0;transform:scale(.9);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+  .rv-scale.on{opacity:1;transform:scale(1)}
+  .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+  .d4{transition-delay:.32s}.d5{transition-delay:.40s}.d6{transition-delay:.48s}
+
+  /* ── SPLIT TEXT ── */
+  .split-word{display:inline-block;overflow:hidden;padding-bottom:0.18em;margin-bottom:-0.18em;vertical-align:bottom}
+  .split-word span{display:inline-block;transform:translateY(110%);opacity:0;transition:transform .7s cubic-bezier(.16,1,.3,1),opacity .5s;will-change:transform}
+  .split-word.on span{transform:translateY(0);opacity:1}
+
+  /* ── CARD HOVER ── */
+  .card-hover{transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s;will-change:transform}
+  .card-hover:hover{transform:translateY(-8px);box-shadow:0 24px 48px rgba(46,107,94,.18),0 0 0 1px rgba(46,107,94,.12)}
+
+  /* ── GLASSMORPHISM ── */
+  .glass{background:rgba(253,248,238,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(253,248,238,.6)}
+
+  /* ── NAV GLASS ── */
+  .nav-glass{background:rgba(253,248,238,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(46,107,94,.12)}
+
+  /* ── NAVBAR LIGHT/DARK SCROLL OVERRIDES ── */
+  #nav .logo-title {
+    color: #7BBFB0; /* agua2 */
+    transition: color 0.3s ease;
+  }
+  #nav .logo-sub {
+    color: rgba(253,248,238,0.7); /* creme translucent */
+    transition: color 0.3s ease;
+  }
+  #nav .nav-link {
+    color: rgba(253,248,238,0.85); /* high contrast soft white */
+    transition: color 0.3s ease;
+  }
+  #nav .nav-link:hover {
+    color: #7BBFB0; /* agua2 */
+  }
+  #nav #mob-menu-btn {
+    color: #7BBFB0; /* agua2 */
+    transition: color 0.3s ease;
+  }
+  #nav .btn-reserva {
+    background: transparent;
+    color: #FDF8EE; /* creme */
+    border: 1px solid rgba(253,248,238,0.4);
+    transition: all 0.3s ease;
+  }
+  #nav .btn-reserva:hover {
+    background: #2E6B5E; /* lago */
+    border-color: #2E6B5E;
+    color: #FDF8EE;
+  }
+
+  /* Scrolled style overrides */
+  #nav.nav-glass .logo-title {
+    color: #2E6B5E; /* lago */
+  }
+  #nav.nav-glass .logo-sub {
+    color: #8B5E3C; /* terra2 */
+  }
+  #nav.nav-glass .nav-link {
+    color: #8B5E3C; /* terra2 */
+  }
+  #nav.nav-glass .nav-link:hover {
+    color: #2E6B5E; /* lago */
+  }
+  #nav.nav-glass #mob-menu-btn {
+    color: #2E6B5E; /* lago */
+  }
+  #nav.nav-glass .btn-reserva {
+    background: #2E6B5E; /* lago */
+    border-color: #2E6B5E;
+    color: #FDF8EE; /* creme */
+  }
+  #nav.nav-glass .btn-reserva:hover {
+    background: #1a4a3f; /* lago2 */
+    border-color: #1a4a3f;
+  }
+
+  /* ── BUTTON MAGNETIC ── */
+  .btn-mag{transition:transform .2s cubic-bezier(.16,1,.3,1),box-shadow .2s}
+
+  /* ── SCROLL INDICATOR ── */
+  .scroll-dot{animation:scrollDot 1.8s ease-in-out infinite}
+  @keyframes scrollDot{0%{transform:translateY(0);opacity:1}100%{transform:translateY(14px);opacity:0}}
+
+  /* ── HERO WATER BG WITH REAL IMAGE ── */
+  .hero-bg {
+    background: linear-gradient(160deg, rgba(26,58,48,0.45) 0%, rgba(46,107,94,0.25) 100%), 
+                url('https://images.unsplash.com/photo-1437482078695-73f5ca6c96e2?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat fixed;
+  }
+
+  /* ── FISH SWIM ── */
+  .fish-swim{animation:fishSwim 8s ease-in-out infinite}
+  @keyframes fishSwim{0%{transform:translateX(0) scaleX(1)}45%{transform:translateX(80px) scaleX(1)}50%{transform:translateX(80px) scaleX(-1)}95%{transform:translateX(0) scaleX(-1)}100%{transform:translateX(0) scaleX(1)}}
+
+  /* ── BACK TO TOP ── */
+  #btt{opacity:0;transform:translateY(20px);transition:opacity .3s,transform .3s}
+  #btt.show{opacity:1;transform:translateY(0)}
+
+  /* ── MODAL ── */
+  #modal{opacity:0;pointer-events:none;transition:opacity .3s}
+  #modal.show{opacity:1;pointer-events:all}
+  #modal-box{transform:scale(.9) translateY(20px);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+  #modal.show #modal-box{transform:scale(1) translateY(0)}
+
+  /* ── NOTIFICATION ── */
+  #notif{transform:translateX(110%);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+  #notif.show{transform:translateX(0)}
+
+  ::-webkit-scrollbar{width:5px}
+  ::-webkit-scrollbar-track{background:#EDE0B8}
+  ::-webkit-scrollbar-thumb{background:#2E6B5E;border-radius:4px}
+</style>
+</head>
+<body class="font-sans bg-creme text-terra overflow-x-hidden">
+
+<!-- CURSOR -->
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<!-- SCROLL PROGRESS -->
+<div id="progress" style="width:0%"></div>
+
+<!-- BACK TO TOP -->
+<a href="#topo" id="btt" class="fixed bottom-6 left-6 z-50 w-12 h-12 bg-lago text-creme flex items-center justify-center text-lg shadow-lg hover:bg-lago2 transition-colors"><i class="fa-solid fa-arrow-up"></i></a>
+
+<!-- NOTIFICATION TOAST -->
+<div id="notif" class="fixed top-20 right-6 z-50 glass rounded-lg p-4 shadow-xl max-w-xs">
+  <div class="flex items-start gap-3">
+    <span class="text-xl text-lago"><i class="fa-solid fa-fish"></i></span>
+    <div>
+      <div class="font-semibold text-lago text-sm">Hoje tem pesque!</div>
+      <div class="text-xs text-terra2 mt-0.5">Aberto das 06h às 18h · Venha pescar com a família!</div>
+    </div>
+    <button onclick="closeNotif()" class="text-terra2 hover:text-terra ml-auto text-xs">✕</button>
+  </div>
+</div>
+
+<!-- RESERVA MODAL -->
+<div id="modal" class="fixed inset-0 z-50 flex items-center justify-center p-4" style="background:rgba(26,58,48,.7);backdrop-filter:blur(8px)">
+  <div id="modal-box" class="bg-creme rounded-2xl p-8 max-w-md w-full shadow-2xl relative">
+    <button onclick="closeModal()" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-terra2 hover:text-terra text-lg">✕</button>
+    <div class="text-script text-3xl text-lago mb-1">Reserva de Mesa</div>
+    <p class="text-xs text-terra2 mb-6">Para grupos acima de 10 pessoas, ligue diretamente.</p>
+    <div class="space-y-4">
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs font-semibold uppercase tracking-wider text-terra2 block mb-1">Nome</label>
+          <input type="text" placeholder="Seu nome" class="w-full border-b border-areia2 bg-transparent py-2 text-sm focus:outline-none focus:border-lago transition-colors placeholder:text-terra2/40"/>
+        </div>
+        <div>
+          <label class="text-xs font-semibold uppercase tracking-wider text-terra2 block mb-1">WhatsApp</label>
+          <input type="tel" placeholder="(16) 9 9999-9999" class="w-full border-b border-areia2 bg-transparent py-2 text-sm focus:outline-none focus:border-lago transition-colors placeholder:text-terra2/40"/>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs font-semibold uppercase tracking-wider text-terra2 block mb-1">Data</label>
+          <input type="date" id="modal-date" class="w-full border-b border-areia2 bg-transparent py-2 text-sm focus:outline-none focus:border-lago transition-colors"/>
+        </div>
+        <div>
+          <label class="text-xs font-semibold uppercase tracking-wider text-terra2 block mb-1">Pessoas</label>
+          <select class="w-full border-b border-areia2 bg-transparent py-2 text-sm focus:outline-none focus:border-lago transition-colors">
+            <option>2 pessoas</option><option>3 pessoas</option><option>4 pessoas</option>
+            <option>5 pessoas</option><option>6 pessoas</option><option>7+ pessoas</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="text-xs font-semibold uppercase tracking-wider text-terra2 block mb-1">Observações</label>
+        <textarea placeholder="Aniversário, crianças, preferências..." class="w-full border-b border-areia2 bg-transparent py-2 text-sm focus:outline-none focus:border-lago transition-colors resize-none placeholder:text-terra2/40" rows="2"></textarea>
+      </div>
+      <button onclick="submitReserva()" class="w-full bg-lago text-creme py-3 rounded-xl font-semibold text-sm tracking-wider uppercase hover:bg-lago2 transition-colors ripple mt-2">
+        Confirmar Reserva
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ NAV ═══ -->
+<header id="nav" class="fixed top-0 left-0 right-0 z-40 transition-all duration-300 py-5 px-6 md:px-12 flex items-center justify-between">
+  <a href="#topo" class="flex items-center gap-3">
+    <div class="w-10 h-10 bg-lago rounded-full flex items-center justify-center text-creme text-sm"><i class="fa-solid fa-fish"></i></div>
+    <div>
+      <div class="font-script text-xl logo-title leading-none">Santa Clara</div>
+      <div class="text-xs logo-sub tracking-widest uppercase leading-none">Pesque & Pague</div>
+    </div>
+  </a>
+  <nav class="hidden md:flex items-center gap-8">
+    <a href="#sobre" class="text-xs font-semibold uppercase tracking-wider nav-link">Sobre</a>
+    <a href="cardapio.html" class="text-xs font-semibold uppercase tracking-wider nav-link">Cardápio</a>
+    <a href="estrutura.html" class="text-xs font-semibold uppercase tracking-wider nav-link">Estrutura</a>
+    <a href="#avaliacoes" class="text-xs font-semibold uppercase tracking-wider nav-link">Avaliações</a>
+    <a href="#contato" class="text-xs font-semibold uppercase tracking-wider nav-link">Contato</a>
+  </nav>
+  <button onclick="openModal()" class="btn-mag btn-reserva px-5 py-2.5 text-xs font-semibold uppercase tracking-wider ripple hidden md:block">
+    Reservar Mesa
+  </button>
+  <button id="mob-menu-btn" class="md:hidden text-2xl">☰</button>
+</header>
+
+<!-- MOBILE MENU -->
+<div id="mob-menu" class="fixed inset-0 z-50 bg-lago2 flex flex-col items-center justify-center gap-8 hidden">
+  <button onclick="closeMobMenu()" class="absolute top-6 right-6 text-creme text-2xl">✕</button>
+  <a href="#sobre" onclick="closeMobMenu()" class="text-creme font-serif text-2xl hover:text-agua2 transition-colors">Sobre</a>
+  <a href="cardapio.html" class="text-creme font-serif text-2xl hover:text-agua2 transition-colors">Cardápio</a>
+  <a href="estrutura.html" class="text-creme font-serif text-2xl hover:text-agua2 transition-colors">Estrutura</a>
+  <a href="#avaliacoes" onclick="closeMobMenu()" class="text-creme font-serif text-2xl hover:text-agua2 transition-colors">Avaliações</a>
+  <a href="#contato" onclick="closeMobMenu()" class="text-creme font-serif text-2xl hover:text-agua2 transition-colors">Contato</a>
+  <button onclick="openModal();closeMobMenu()" class="bg-laranja text-creme px-8 py-3 font-semibold uppercase tracking-wider text-sm mt-4">Reservar Mesa</button>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section id="topo" class="hero-bg min-h-screen flex flex-col items-center justify-center relative overflow-hidden pt-20">
+  <!-- Video Background -->
+  <div class="absolute inset-0 z-0">
+    <video autoplay loop muted playsinline class="w-full h-full object-cover" style="will-change: transform;">
+      <source src="https://assets.mixkit.co/videos/preview/mixkit-flying-over-a-large-calm-lake-near-the-mountains-4993-large.mp4" type="video/mp4">
+    </video>
+    <!-- Overlay Gradient -->
+    <div class="absolute inset-0 bg-gradient-to-b from-lago2/45 via-transparent to-lago2/80"></div>
+    <!-- Diving Parallax Underwater Overlay -->
+    <div id="diving-overlay" class="absolute inset-0 bg-gradient-to-b from-agua/0 via-lago/75 to-lago2 pointer-events-none z-6 opacity-0" style="will-change: opacity;"></div>
+  </div>
+
+  <!-- Água animada de fundo -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none z-10">
+    <div id="water-particles" class="absolute inset-0"></div>
+    <!-- Linhas de água -->
+    <svg class="absolute bottom-0 left-0 right-0 w-full" style="height:200px; will-change: transform;" viewBox="0 0 1440 200" preserveAspectRatio="none">
+      <path d="M0,100 C360,160 720,40 1080,120 C1260,160 1380,80 1440,100 L1440,200 L0,200 Z" fill="rgba(46,107,94,.3)" class="wave"/>
+      <path d="M0,120 C240,80 480,160 720,110 C960,60 1200,150 1440,120 L1440,200 L0,200 Z" fill="rgba(26,74,63,.4)" class="wave2"/>
+    </svg>
+  </div>
+
+  <div class="relative z-10 text-center px-6 max-w-4xl mx-auto" style="will-change: transform, opacity;">
+    <!-- Badge -->
+    <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-agua2 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest mb-8 rv">
+      <span class="w-1.5 h-1.5 bg-agua2 rounded-full animate-pulse"></span>
+      Aberto Hoje · Fecha às 18h
+      <span class="w-1.5 h-1.5 bg-agua2 rounded-full animate-pulse"></span>
+    </div>
+
+    <!-- Título split -->
+    <h1 class="font-serif font-black text-creme mb-6 leading-none" style="font-size:clamp(3rem,7vw,6rem)">
+      <span class="split-word rv d2"><span>Pesque</span></span>
+      <span class="text-agua2 font-serif italic font-normal"> & </span>
+      <span class="split-word rv d3"><span>Pague</span></span>
+    </h1>
+    <div class="font-script text-agua2 mb-6 rv d4" style="font-size:clamp(1.8rem,4vw,3rem)">Santa Clara</div>
+
+    <!-- Stars -->
+    <div class="flex items-center justify-center gap-2 mb-6 rv d4">
+      <div class="flex gap-0.5 text-yellow-400 text-lg">★★★★<span class="opacity-50">★</span></div>
+      <span class="text-creme/70 text-sm font-medium">4,4 · <span class="underline decoration-dotted">1.192 avaliações</span></span>
+    </div>
+
+    <p class="text-creme/70 text-base max-w-xl mx-auto mb-10 leading-relaxed rv d5">
+      Ambiente familiar à beira do lago em Franca-SP.<br class="hidden md:block"/>
+      Tilápias fresquíssimas, playground, tanque de pesca e chope gelado.
+    </p>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center rv d6">
+      <button onclick="openModal()" class="btn-mag bg-laranja hover:bg-laranja2 text-creme px-8 py-4 font-semibold text-sm uppercase tracking-wider transition-all ripple shadow-xl shadow-laranja/30">
+        <i class="fa-regular fa-calendar-days mr-2"></i> Reservar Mesa
+      </button>
+      <a href="#cardapio" class="btn-mag border border-white/30 text-creme hover:bg-white/10 px-8 py-4 font-semibold text-sm uppercase tracking-wider transition-all">
+        <i class="fa-solid fa-utensils mr-2"></i> Ver Cardápio
+      </a>
+      <a href="tel:+5516992607959" class="btn-mag border border-white/30 text-creme hover:bg-white/10 px-8 py-4 font-semibold text-sm uppercase tracking-wider transition-all">
+        <i class="fa-solid fa-phone mr-2"></i> Ligar Agora
+      </a>
+    </div>
+
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 z-20 rv" style="transition-delay:.8s">
+      <span class="text-creme/40 text-xs tracking-widest uppercase">Descer</span>
+      <div class="w-5 h-8 border border-creme/30 rounded-full flex justify-center pt-1.5">
+        <div class="w-1 h-2 bg-creme/50 rounded-full scroll-dot"></div>
+      </div>
+    </div>
+  </section>
+
+<!-- ═══ MARQUEE FAIXA ═══ -->
+<div class="bg-lago py-3 overflow-hidden border-y border-lago2">
+  <div class="marquee-track">
+    <div class="flex items-center gap-2 px-8 text-creme/80 text-xs font-semibold uppercase tracking-widest whitespace-nowrap"><i class="fa-solid fa-fish text-agua2 mr-2"></i> Tilápia Fresquíssima <span class="text-agua2 mx-2">✦</span></div>
+    <div class="flex items-center gap-2 px-8 text-creme/80 text-xs font-semibold uppercase tracking-widest whitespace-nowrap"><i class="fa-solid fa-beer-mug-empty text-agua2 mr-2"></i> Chope Gelado <span class="text-agua2 mx-2">✦</span></div>
+    <div class="flex items-center gap-2 px-8 text-creme/80 text-xs font-semibold uppercase tracking-widest whitespace-nowrap"><i class="fa-solid fa-anchor text-agua2 mr-2"></i> Tanque de Pesca <span class="text-agua2 mx-2">✦</span></div>
+    <div class="flex items-center gap-2 px-8 text-creme/80 text-xs font-semibold uppercase tracking-widest whitespace-nowrap"><i class="fa-solid fa-tree text-agua2 mr-2"></i> Ambiente Familiar <span class="text-agua2 mx-2">✦</span></div>
+    <div class="flex items-center gap-2 px-8 text-creme/80 text-xs font-semibold uppercase tracking-widest whitespace-nowrap"><i class="fa-solid fa-child text-agua2 mr-2"></i> Playground Infantil <span class="text-agua2 mx-2">✦</span></div>
+    <div class="flex items-center gap-2 px-8 text-creme/80 text-xs font-semibold uppercase tracking-widest whitespace-nowrap"><i class="fa-solid fa-music text-agua2 mr-2"></i> Shows ao Vivo <span class="text-agua2 mx-2">✦</span></div>
+    <div class="flex items-center gap-2 px-8 text-creme/80 text-xs font-semibold uppercase tracking-widest whitespace-nowrap"><i class="fa-solid fa-location-dot text-agua2 mr-2"></i> Franca · SP <span class="text-agua2 mx-2">✦</span></div>
+    <!-- repeat -->
+    <div class="flex items-center gap-2 px-8 text-creme/80 text-xs font-semibold uppercase tracking-widest whitespace-nowrap"><i class="fa-solid fa-fish text-agua2 mr-2"></i> Tilápia Fresquíssima <span class="text-agua2 mx-2">✦</span></div>
+    <div class="flex items-center gap-2 px-8 text-creme/80 text-xs font-semibold uppercase tracking-widest whitespace-nowrap"><i class="fa-solid fa-beer-mug-empty text-agua2 mr-2"></i> Chope Gelado <span class="text-agua2 mx-2">✦</span></div>
+    <div class="flex items-center gap-2 px-8 text-creme/80 text-xs font-semibold uppercase tracking-widest whitespace-nowrap"><i class="fa-solid fa-anchor text-agua2 mr-2"></i> Tanque de Pesca <span class="text-agua2 mx-2">✦</span></div>
+    <div class="flex items-center gap-2 px-8 text-creme/80 text-xs font-semibold uppercase tracking-widest whitespace-nowrap"><i class="fa-solid fa-tree text-agua2 mr-2"></i> Ambiente Familiar <span class="text-agua2 mx-2">✦</span></div>
+    <div class="flex items-center gap-2 px-8 text-creme/80 text-xs font-semibold uppercase tracking-widest whitespace-nowrap"><i class="fa-solid fa-child text-agua2 mr-2"></i> Playground Infantil <span class="text-agua2 mx-2">✦</span></div>
+    <div class="flex items-center gap-2 px-8 text-creme/80 text-xs font-semibold uppercase tracking-widest whitespace-nowrap"><i class="fa-solid fa-music text-agua2 mr-2"></i> Shows ao Vivo <span class="text-agua2 mx-2">✦</span></div>
+    <div class="flex items-center gap-2 px-8 text-creme/80 text-xs font-semibold uppercase tracking-widest whitespace-nowrap"><i class="fa-solid fa-location-dot text-agua2 mr-2"></i> Franca · SP <span class="text-agua2 mx-2">✦</span></div>
+  </div>
+</div>
+
+<!-- ═══ SOBRE ═══ -->
+<section id="sobre" class="py-24 bg-creme">
+  <div class="max-w-6xl mx-auto px-6 md:px-12">
+    <div class="grid md:grid-cols-2 gap-16 items-center">
+      <!-- Visual lado esquerdo COM SLIDESHOW GALERIA -->
+      <div class="relative rv-l">
+        <!-- Frame principal contendo imagens em slide -->
+        <div id="slideshow" class="relative bg-lago/10 rounded-2xl overflow-hidden aspect-[4/5] flex items-center justify-center border border-lago/20 shadow-2xl">
+          <!-- Slides -->
+          <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80" class="slide-img absolute inset-0 w-full h-full object-cover opacity-100 transition-opacity duration-1000 ease-in-out" />
+          <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=800&q=80" class="slide-img absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000 ease-in-out" />
+          <img src="https://images.unsplash.com/photo-1437482078695-73f5ca6c96e2?auto=format&fit=crop&w=800&q=80" class="slide-img absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000 ease-in-out" />
+          <img src="https://images.unsplash.com/photo-1516684732162-798a0062be99?auto=format&fit=crop&w=800&q=80" class="slide-img absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000 ease-in-out" />
+          
+          <!-- Sobreposição escura integrada -->
+          <div class="absolute inset-0 bg-lago/30 mix-blend-multiply pointer-events-none"></div>
+          
+          <div class="text-center relative z-10 p-6 glass rounded-full select-none">
+            <div class="text-lago font-script text-3xl">Desde sempre</div>
+          </div>
+        </div>
+        <!-- Selos flutuantes -->
+        <div class="absolute -top-4 -right-4 bg-lago text-creme w-24 h-24 rounded-full flex flex-col items-center justify-center text-center shadow-xl shadow-lago/30">
+          <span class="text-2xl font-black font-serif">★4.4</span>
+          <span class="text-xs opacity-80 leading-none mt-0.5">Google</span>
+        </div>
+        <div class="absolute -bottom-4 -left-4 bg-laranja text-creme px-4 py-3 shadow-xl">
+          <div class="font-serif font-bold text-lg leading-none">#1</div>
+          <div class="text-xs opacity-90 leading-none">Frutos do Mar<br/>em Franca</div>
+        </div>
+      </div>
+      <!-- Texto -->
+      <div>
+        <div class="flex items-center gap-3 mb-4 rv">
+          <div class="h-px w-8 bg-lago"></div>
+          <span class="text-xs font-bold uppercase tracking-widest text-lago">Nossa história</span>
+        </div>
+        <h2 class="font-serif font-black text-terra leading-tight mb-6 rv d1" style="font-size:clamp(2rem,4vw,3rem)">
+          O pesque favorito<br/><em class="text-lago font-normal">de Franca</em>
+        </h2>
+        <p class="text-terra2 leading-relaxed mb-4 rv d2">
+          Localizado na Av. Cláudio da Cruz Ribeiro, o Pesque & Pague Santa Clara é muito mais do que um restaurante de peixe — é um point familiar completo no coração de Franca, SP.
+        </p>
+        <p class="text-terra2 leading-relaxed mb-8 rv d3">
+          Com lago próprio para pesca, playground infantil, palco para shows ao vivo e uma cozinha que serve a melhor tilápia da região, somos o destino ideal para almoços em família, aniversários e confraternizações.
+        </p>
+        <!-- Mini stats -->
+        <div class="grid grid-cols-3 gap-4 rv d4">
+          <div class="text-center p-4 bg-lago/5 border border-lago/10 rounded-xl">
+            <div class="font-serif font-black text-2xl text-lago" data-target="1192">0</div>
+            <div class="text-xs text-terra2 mt-1 uppercase tracking-wide">Avaliações</div>
+          </div>
+          <div class="text-center p-4 bg-lago/5 border border-lago/10 rounded-xl">
+            <div class="font-serif font-black text-2xl text-lago" data-target="4" data-float="4.4">0</div>
+            <div class="text-xs text-terra2 mt-1 uppercase tracking-wide">Nota Google</div>
+          </div>
+          <div class="text-center p-4 bg-lago/5 border border-lago/10 rounded-xl">
+            <div class="font-serif font-black text-2xl text-lago" data-target="1" data-text="#1">0</div>
+            <div class="text-xs text-terra2 mt-1 uppercase tracking-wide">Frutos do Mar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DIFERENCIAIS ═══ -->
+<section class="py-20 bg-lago2 relative overflow-hidden">
+  <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.1) 0px,rgba(255,255,255,.1) 1px,transparent 1px,transparent 60px),repeating-linear-gradient(90deg,rgba(255,255,255,.1) 0px,rgba(255,255,255,.1) 1px,transparent 1px,transparent 60px)"></div>
+  <div class="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
+    <div class="text-center mb-14">
+      <div class="flex items-center gap-3 justify-center mb-4 rv">
+        <div class="h-px w-8 bg-agua2"></div>
+        <span class="text-xs font-bold uppercase tracking-widest text-agua2">Por que nos escolher</span>
+        <div class="h-px w-8 bg-agua2"></div>
+      </div>
+      <h2 class="font-serif font-black text-creme rv d1" style="font-size:clamp(1.8rem,4vw,2.8rem)">
+        Uma experiência <em class="text-agua2 font-normal">completa</em>
+      </h2>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Card 1 -->
+      <div class="bg-lago2 border border-white/10 rounded-2xl overflow-hidden card-hover rv d1 group relative">
+        <img src="https://images.unsplash.com/photo-1516684732162-798a0062be99?auto=format&fit=crop&w=400&q=80" class="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-300" />
+        <div class="p-6 relative z-10 h-full flex flex-col justify-end min-h-[220px]">
+          <h3 class="font-serif text-creme font-bold text-xl mb-2 drop-shadow-md">Tanque de Pesca</h3>
+          <p class="text-creme/80 text-sm leading-relaxed drop-shadow-md">Pesque você mesmo sua tilápia no nosso lago particular.</p>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="bg-lago2 border border-white/10 rounded-2xl overflow-hidden card-hover rv d2 group relative">
+        <img src="https://images.unsplash.com/photo-1599084993091-1cb5c0721cc6?auto=format&fit=crop&w=400&q=80" class="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-300" />
+        <div class="p-6 relative z-10 h-full flex flex-col justify-end min-h-[220px]">
+          <h3 class="font-serif text-creme font-bold text-xl mb-2 drop-shadow-md">Culinária Impecável</h3>
+          <p class="text-creme/80 text-sm leading-relaxed drop-shadow-md">JK de Tilápia e porções generosas aprovadas por clientes.</p>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="bg-lago2 border border-white/10 rounded-2xl overflow-hidden card-hover rv d3 group relative">
+        <img src="https://images.unsplash.com/photo-1603569283847-aa295f0d016a?auto=format&fit=crop&w=400&q=80" class="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-300" />
+        <div class="p-6 relative z-10 h-full flex flex-col justify-end min-h-[220px]">
+          <h3 class="font-serif text-creme font-bold text-xl mb-2 drop-shadow-md">Playground Infantil</h3>
+          <p class="text-creme/80 text-sm leading-relaxed drop-shadow-md">Área segura e divertida para as crianças brincarem.</p>
+        </div>
+      </div>
+      <!-- Card 4 -->
+      <div class="bg-lago2 border border-white/10 rounded-2xl overflow-hidden card-hover rv d4 group relative">
+        <img src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&w=400&q=80" class="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-300" />
+        <div class="p-6 relative z-10 h-full flex flex-col justify-end min-h-[220px]">
+          <h3 class="font-serif text-creme font-bold text-xl mb-2 drop-shadow-md">Shows ao Vivo</h3>
+          <p class="text-creme/80 text-sm leading-relaxed drop-shadow-md">Música ao vivo de qualidade todo fim de semana.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CARDÁPIO ═══ -->
+<section id="cardapio" class="py-24 bg-areia">
+  <div class="max-w-6xl mx-auto px-6 md:px-12">
+    <div class="text-center mb-14">
+      <div class="flex items-center gap-3 justify-center mb-4 rv">
+        <div class="h-px w-8 bg-lago"></div>
+        <span class="text-xs font-bold uppercase tracking-widest text-lago">O que servimos</span>
+        <div class="h-px w-8 bg-lago"></div>
+      </div>
+      <h2 class="font-serif font-black text-terra rv d1" style="font-size:clamp(1.8rem,4vw,2.8rem)">
+        Nosso <em class="text-lago font-normal italic">Cardápio</em>
+      </h2>
+      <p class="text-terra2 mt-3 rv d2 max-w-lg mx-auto">R$ 40 – R$ 120 por pessoa · Tudo feito com peixe fresco do dia</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex flex-wrap justify-center gap-2 mb-10 rv d2">
+      <button onclick="switchTab('peixes')" id="tab-peixes" class="menu-tab active-tab px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all"><i class="fa-solid fa-fish mr-1.5"></i> Peixes</button>
+      <button onclick="switchTab('porcoes')" id="tab-porcoes" class="menu-tab px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all"><i class="fa-solid fa-cheese mr-1.5"></i> Porções</button>
+      <button onclick="switchTab('bebidas')" id="tab-bebidas" class="menu-tab px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all"><i class="fa-solid fa-beer-mug-empty mr-1.5"></i> Bebidas</button>
+      <button onclick="switchTab('sobremesas')" id="tab-sobremesas" class="menu-tab px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all"><i class="fa-solid fa-ice-cream mr-1.5"></i> Sobremesas</button>
+    </div>
+    <style>
+      .menu-tab{background:transparent;color:var(--terra2,#8B5E3C);border:1.5px solid rgba(46,107,94,.2);border-radius:0}
+      .menu-tab:hover{background:rgba(46,107,94,.08);color:#2E6B5E}
+      .active-tab{background:#2E6B5E!important;color:#FDF8EE!important;border-color:#2E6B5E!important}
+      .menu-panel{display:none}.menu-panel.active{display:grid}
+    </style>
+
+    <!-- Peixes -->
+    <div id="panel-peixes" class="menu-panel active grid md:grid-cols-2 gap-4">
+      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
+        <img src="https://images.unsplash.com/photo-1599084993091-1cb5c0721cc6?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
+        <div class="flex-1">
+          <div class="flex justify-between items-start mb-2">
+            <div>
+              <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-trophy text-laranja mr-1.5"></i> Porção de Tilápia</div>
+              <div class="text-xs text-lago font-semibold uppercase tracking-wide mt-0.5">Mais Pedido</div>
+            </div>
+            <div class="font-serif italic text-laranja text-lg font-bold">R$ 65</div>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">Tilápia frita na hora, crocante por fora e suculenta por dentro. Acompanha arroz, feijão, farofa e vinagrete. Para 2 pessoas.</p>
+        </div>
+      </div>
+      
+      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
+        <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
+        <div class="flex-1">
+          <div class="flex justify-between items-start mb-2">
+            <div>
+              <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-star text-laranja mr-1.5"></i> JK de Tilápia</div>
+              <div class="text-xs text-laranja font-semibold uppercase tracking-wide mt-0.5">Destaque</div>
+            </div>
+            <div class="font-serif italic text-laranja text-lg font-bold">R$ 85</div>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">Peixe inteiro na brasa com temperos especiais da casa, mandioca frita, arroz e salada fresca. Uma experiência única.</p>
+        </div>
+      </div>
+      
+      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
+        <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
+        <div class="flex-1">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-fish text-lago mr-1.5"></i> Tilápia Grelhada</div>
+            <div class="font-serif italic text-laranja text-lg font-bold">R$ 58</div>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">Filé de tilápia grelhado com azeite, limão e ervas frescas. Leve e saboroso, servido com legumes e arroz integral.</p>
+        </div>
+      </div>
+      
+      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
+        <img src="https://images.unsplash.com/photo-1534604973900-c43ab4c2e0ab?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
+        <div class="flex-1">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-cheese text-laranja mr-1.5"></i> Tilápia à Parmegiana</div>
+            <div class="font-serif italic text-laranja text-lg font-bold">R$ 75</div>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">Delicioso filé de tilápia empanado, coberto com molho de tomate artesanal e muito queijo derretido. Acompanha arroz e fritas.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Porções -->
+    <div id="panel-porcoes" class="menu-panel grid md:grid-cols-2 gap-4">
+      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
+        <img src="https://images.unsplash.com/photo-1607532941433-304659e8198a?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
+        <div class="flex-1">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-shrimp text-laranja mr-1.5"></i> Porção de Camarão</div>
+            <div class="font-serif italic text-laranja text-lg font-bold">R$ 78</div>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">Camarão empanado e frito, crocante e temperado. Acompanha molho tártaro e limão. Para 2 a 3 pessoas.</p>
+        </div>
+      </div>
+      
+      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
+        <img src="https://images.unsplash.com/photo-1623653387945-2fd25214f8fc?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
+        <div class="flex-1">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-drumstick-bite text-laranja mr-1.5"></i> Porção de Frango</div>
+            <div class="font-serif italic text-laranja text-lg font-bold">R$ 48</div>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">Frango a passarinho frito, crocante e temperado com alho e limão. Para quem prefere uma opção fora do peixe.</p>
+        </div>
+      </div>
+      
+      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
+        <img src="https://images.unsplash.com/photo-1518013431117-eb1465fa5752?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
+        <div class="flex-1">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-bowl-food text-lago mr-1.5"></i> Mandioca Frita</div>
+            <div class="font-serif italic text-laranja text-lg font-bold">R$ 28</div>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">Mandioca cozida e frita, dourada e crocante. Com sal grosso e molho da casa. Ótima entrada para compartilhar.</p>
+        </div>
+      </div>
+      
+      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
+        <img src="https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
+        <div class="flex-1">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-circle text-lago mr-1.5"></i> Bolinho de Bacalhau</div>
+            <div class="font-serif italic text-laranja text-lg font-bold">R$ 42</div>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">Bolinhos artesanais de bacalhau, crocantes por fora e cremosos por dentro. Servido com molho de azeitona.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bebidas -->
+    <div id="panel-bebidas" class="menu-panel grid md:grid-cols-2 gap-4">
+      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
+        <img src="https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
+        <div class="flex-1">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-beer-mug-empty text-lago mr-1.5"></i> Chope Gelado</div>
+            <div class="font-serif italic text-laranja text-lg font-bold">R$ 12</div>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">O chope mais gelado de Franca! Pilsen ou Weiss, tirado na hora com colarinho perfeito.</p>
+        </div>
+      </div>
+      
+      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
+        <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
+        <div class="flex-1">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-glass-water text-lago mr-1.5"></i> Caipirinha</div>
+            <div class="font-serif italic text-laranja text-lg font-bold">R$ 22</div>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">Caipirinha de limão, morango ou maracujá. Cachaça artesanal ou vodka. Dose generosa, preço justo.</p>
+        </div>
+      </div>
+      
+      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
+        <img src="https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
+        <div class="flex-1">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-lemon text-lago mr-1.5"></i> Suco Natural</div>
+            <div class="font-serif italic text-laranja text-lg font-bold">R$ 14</div>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">Sucos naturais de frutas da estação. Laranja, maracujá, manga, goiaba. Frescos e sem adição de açúcar.</p>
+        </div>
+      </div>
+      
+      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
+        <img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
+        <div class="flex-1">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-bottle-water text-lago mr-1.5"></i> Refrigerante</div>
+            <div class="font-serif italic text-laranja text-lg font-bold">R$ 8</div>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">Coca-Cola, Guaraná, Sprite, Fanta. Lata ou long neck bem gelados para toda a família.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sobremesas -->
+    <div id="panel-sobremesas" class="menu-panel grid md:grid-cols-2 gap-4">
+      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
+        <img src="https://images.unsplash.com/photo-1590137876181-2a5a7e340308?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
+        <div class="flex-1">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-cake-candles text-lago mr-1.5"></i> Pudim Caseiro</div>
+            <div class="font-serif italic text-laranja text-lg font-bold">R$ 16</div>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">Pudim de leite condensado feito na casa, cremoso e com calda de caramelo.</p>
+        </div>
+      </div>
+      
+      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
+        <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
+        <div class="flex-1">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-cookie text-lago mr-1.5"></i> Bolo do Dia</div>
+            <div class="font-serif italic text-laranja text-lg font-bold">R$ 12</div>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">Bolo caseiro assado todo dia de manhã. Sabores variados: laranja, cenoura, chocolate.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão Ver Mais Cardápio -->
+    <div class="text-center mt-12 rv d3">
+      <a href="cardapio.html" class="btn-mag inline-flex items-center gap-2 bg-lago hover:bg-lago2 text-creme px-8 py-4 font-semibold text-sm uppercase tracking-wider transition-all ripple shadow-lg">
+        <i class="fa-solid fa-circle-plus mr-1"></i> Ver Cardápio Completo
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ESTRUTURA ═══ -->
+<section id="estrutura" class="py-24 bg-creme">
+  <div class="max-w-6xl mx-auto px-6 md:px-12">
+    <div class="text-center mb-16">
+      <div class="flex items-center gap-3 justify-center mb-4 rv">
+        <div class="h-px w-8 bg-lago"></div>
+        <span class="text-xs font-bold uppercase tracking-widest text-lago">Estrutura & Lazer</span>
+        <div class="h-px w-8 bg-lago"></div>
+      </div>
+      <h2 class="font-serif font-black text-terra rv d1" style="font-size:clamp(1.8rem,4vw,2.8rem)">
+        Muito mais que<br/><em class="text-lago font-normal italic">um restaurante</em>
+      </h2>
+    </div>
+
+    <!-- Grid mosaico de fotos / estrutura -->
+    <div class="grid grid-cols-12 grid-rows-3 gap-3" style="height:520px">
+      <!-- Imagem Tanque -->
+      <div class="col-span-4 row-span-2 rounded-xl flex items-center justify-center relative overflow-hidden group rv-l card-hover bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1437482078695-73f5ca6c96e2?auto=format&fit=crop&w=800&q=80')">
+        <div class="absolute inset-0 bg-lago2/60 group-hover:bg-lago2/40 transition-colors"></div>
+        <div class="text-center relative z-10 p-4 text-creme">
+          <i class="fa-solid fa-fish text-3xl mb-2 drop-shadow-md text-agua2"></i>
+          <div class="font-serif font-bold text-xl drop-shadow-md">Tanque de Pesca</div>
+          <p class="text-creme/90 text-xs mt-2 leading-relaxed drop-shadow-md hidden md:block">Lago privativo para pesca esportiva.</p>
+        </div>
+      </div>
+      <!-- Imagem Área Verde -->
+      <div class="col-span-5 row-span-1 rounded-xl flex items-center justify-center group rv card-hover bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=800&q=80')">
+        <div class="absolute inset-0 bg-folha2/50 group-hover:bg-folha2/30 transition-colors rounded-xl"></div>
+        <div class="text-center p-4 relative z-10 text-creme">
+          <i class="fa-solid fa-tree text-2xl mb-1 drop-shadow-md text-agua2"></i>
+          <div class="font-serif font-bold drop-shadow-md">Área Verde</div>
+        </div>
+      </div>
+      <!-- Imagem Shows -->
+      <div class="col-span-3 row-span-2 rounded-xl flex items-center justify-center group rv-r card-hover bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&w=800&q=80')">
+        <div class="absolute inset-0 bg-laranja2/60 group-hover:bg-laranja2/40 transition-colors rounded-xl"></div>
+        <div class="text-center p-4 relative z-10 text-creme">
+          <i class="fa-solid fa-music text-3xl mb-1.5 drop-shadow-md text-agua2"></i>
+          <div class="font-serif font-bold text-lg drop-shadow-md">Shows ao Vivo</div>
+          <p class="text-creme/90 text-xs mt-2 leading-relaxed drop-shadow-md hidden lg:block">Música ao vivo toda semana no palco</p>
+        </div>
+      </div>
+      <!-- Imagem Playground -->
+      <div class="col-span-5 row-span-1 rounded-xl flex items-center justify-center group rv d1 card-hover bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1603569283847-aa295f0d016a?auto=format&fit=crop&w=800&q=80')">
+        <div class="absolute inset-0 bg-agua/60 group-hover:bg-agua/40 transition-colors rounded-xl"></div>
+        <div class="text-center p-4 relative z-10 text-creme">
+          <i class="fa-solid fa-child text-2xl mb-1 drop-shadow-md text-agua2"></i>
+          <div class="font-serif font-bold drop-shadow-md">Playground</div>
+        </div>
+      </div>
+      
+      <!-- Icon Blocks -->
+      <div class="col-span-4 row-span-1 bg-terra/10 rounded-xl flex items-center justify-center group rv d2 card-hover">
+        <div class="text-center p-4">
+          <i class="fa-solid fa-car text-3xl mb-1.5 text-terra"></i>
+          <div class="font-serif font-bold text-terra2">Estacionamento</div>
+        </div>
+      </div>
+      <div class="col-span-4 row-span-1 bg-lago/10 rounded-xl flex items-center justify-center group rv d3 card-hover">
+        <div class="text-center p-4">
+          <i class="fa-solid fa-box-open text-3xl mb-1.5 text-lago"></i>
+          <div class="font-serif font-bold text-lago">Para Viagem</div>
+        </div>
+      </div>
+      <div class="col-span-4 row-span-1 bg-areia2 rounded-xl flex items-center justify-center group rv d4 card-hover">
+        <div class="text-center p-4">
+          <i class="fa-solid fa-motorcycle text-3xl mb-1.5 text-terra"></i>
+          <div class="font-serif font-bold text-terra">Delivery</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão Ver Mais Estrutura -->
+    <div class="text-center mt-12 rv d4">
+      <a href="estrutura.html" class="btn-mag inline-flex items-center gap-2 bg-lago hover:bg-lago2 text-creme px-8 py-4 font-semibold text-sm uppercase tracking-wider transition-all ripple shadow-lg">
+        <i class="fa-solid fa-tree mr-1"></i> Conhecer Estrutura Completa
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ HORÁRIOS ═══ -->
+<section class="py-20 bg-lago">
+  <div class="max-w-4xl mx-auto px-6 md:px-12">
+    <div class="text-center mb-12">
+      <h2 class="font-serif font-black text-creme rv" style="font-size:clamp(1.8rem,4vw,2.5rem)">
+        Quando <em class="text-agua2 font-normal italic">estamos abertos</em>
+      </h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-3">
+      <div class="flex items-center justify-between bg-white/5 border border-white/10 px-6 py-4 rv hover:bg-white/10 transition-colors group">
+        <span class="font-serif italic text-creme/70 group-hover:text-creme transition-colors">Segunda-feira</span>
+        <span class="text-creme/30 text-sm italic">Fechado</span>
+      </div>
+      <div class="flex items-center justify-between bg-white/5 border border-white/10 px-6 py-4 rv d1 hover:bg-white/10 transition-colors group">
+        <span class="font-serif italic text-creme/70 group-hover:text-creme transition-colors">Terça-feira</span>
+        <span class="text-agua2 font-bold text-sm">06:00 – 18:00</span>
+      </div>
+      <div class="flex items-center justify-between bg-white/5 border border-white/10 px-6 py-4 rv d2 hover:bg-white/10 transition-colors group">
+        <span class="font-serif italic text-creme/70 group-hover:text-creme transition-colors">Quarta-feira</span>
+        <span class="text-agua2 font-bold text-sm">06:00 – 18:00</span>
+      </div>
+      <div class="flex items-center justify-between bg-white/5 border border-white/10 px-6 py-4 rv d3 hover:bg-white/10 transition-colors group">
+        <span class="font-serif italic text-creme/70 group-hover:text-creme transition-colors">Quinta-feira</span>
+        <span class="text-agua2 font-bold text-sm">06:00 – 18:00</span>
+      </div>
+      <div class="flex items-center justify-between bg-white/5 border border-white/10 px-6 py-4 rv d4 hover:bg-white/10 transition-colors group">
+        <span class="font-serif italic text-creme/70 group-hover:text-creme transition-colors">Sexta-feira</span>
+        <span class="text-agua2 font-bold text-sm">06:00 – 20:00</span>
+      </div>
+      <div class="flex items-center justify-between bg-laranja/20 border border-laranja/30 px-6 py-4 rv d5 hover:bg-laranja/30 transition-colors group">
+        <div>
+          <span class="font-serif italic text-creme group-hover:text-creme transition-colors">Sábado</span>
+          <span class="text-xs text-laranja2 ml-2">· Mais Movimentado</span>
+        </div>
+        <span class="text-agua2 font-bold text-sm">06:00 – 20:00</span>
+      </div>
+      <div class="flex items-center justify-between bg-laranja/20 border border-laranja/30 px-6 py-4 rv d6 hover:bg-laranja/30 transition-colors group md:col-span-2">
+        <div>
+          <span class="font-serif italic text-creme">Domingo</span>
+          <span class="text-xs text-laranja2 ml-2">· Almoço Especial de Família</span>
+        </div>
+        <span class="text-agua2 font-bold text-sm">06:00 – 18:00</span>
+      </div>
+    </div>
+    <div class="text-center mt-8 rv">
+      <div class="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-6 py-3 text-creme/60 text-sm">
+        <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+        Aberto hoje!
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ AVALIAÇÕES ═══ -->
+<section id="avaliacoes" class="py-24 bg-areia2">
+  <div class="max-w-6xl mx-auto px-6 md:px-12">
+    <div class="text-center mb-16">
+      <div class="flex items-center gap-3 justify-center mb-4 rv">
+        <div class="h-px w-8 bg-lago"></div>
+        <span class="text-xs font-bold uppercase tracking-widest text-lago">O que dizem</span>
+        <div class="h-px w-8 bg-lago"></div>
+      </div>
+      <h2 class="font-serif font-black text-terra rv d1" style="font-size:clamp(1.8rem,4vw,2.8rem)">
+        Avaliações dos <em class="text-lago font-normal italic">nossos clientes</em>
+      </h2>
+      
+      <!-- Rating summary -->
+      <div class="flex items-center justify-center gap-6 mt-8 rv d2">
+        <div class="text-center">
+          <div class="font-serif font-black text-terra" style="font-size:4rem;line-height:1">4,4</div>
+          <div class="flex text-yellow-500 text-xl justify-center mt-2">★★★★<span class="opacity-50">★</span></div>
+          <div class="text-xs text-terra2 mt-1 uppercase tracking-wide">Avaliações Google</div>
+        </div>
+      </div>
+      
+      <!-- Review Cards -->
+      <div id="reviews-grid" class="grid md:grid-cols-3 gap-6 mt-12">
+        <div class="bg-creme p-8 rounded-2xl border border-areia shadow-lg card-hover rv d3">
+          <div class="flex text-yellow-500 text-sm mb-4">★★★★★</div>
+          <p class="text-terra2 text-sm italic mb-6">"Lugar maravilhoso para ir com a família! Comida excelente, porções generosas e o peixe frito é divino. As crianças amaram o parquinho e ver os peixes no lago."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-lago2 text-creme flex items-center justify-center font-bold">M</div>
+            <div>
+              <div class="text-sm font-bold text-terra">Maria Silva</div>
+              <div class="text-xs text-terra2">Guia Local</div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-creme p-8 rounded-2xl border border-areia shadow-lg card-hover rv d4">
+          <div class="flex text-yellow-500 text-sm mb-4">★★★★★</div>
+          <p class="text-terra2 text-sm italic mb-6">"Atendimento nota 10! A tilápia é fresquinha e o chope bem gelado. Ambiente super agradável, arborizado. Melhor pesque pague de Franca com certeza!"</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-laranja text-creme flex items-center justify-center font-bold">J</div>
+            <div>
+              <div class="text-sm font-bold text-terra">João Carlos</div>
+              <div class="text-xs text-terra2">Há 2 semanas</div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-creme p-8 rounded-2xl border border-areia shadow-lg card-hover rv d5">
+          <div class="flex text-yellow-500 text-sm mb-4">★★★★★</div>
+          <p class="text-terra2 text-sm italic mb-6">"Ótima estrutura, a Parmegiana de tilápia é maravilhosa, serve muito bem 3 pessoas. Aos finais de semana tem música ao vivo, bem animado. Recomendo chegar cedo!"</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-agua text-creme flex items-center justify-center font-bold">A</div>
+            <div>
+              <div class="text-sm font-bold text-terra">Ana Paula</div>
+              <div class="text-xs text-terra2">Há 1 mês</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTATO ═══ -->
+<section id="contato" class="py-24 bg-lago relative overflow-hidden">
+  <div class="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
+    <div class="grid md:grid-cols-2 gap-16">
+      <div>
+        <div class="flex items-center gap-3 mb-4 rv">
+          <div class="h-px w-8 bg-agua2"></div>
+          <span class="text-xs font-bold uppercase tracking-widest text-agua2">Visite-nos</span>
+        </div>
+        <h2 class="font-serif font-black text-creme leading-tight mb-8 rv d1" style="font-size:clamp(2rem,4vw,3rem)">
+          Venha viver essa <em class="text-agua2 font-normal">experiência</em>
+        </h2>
+        
+        <div class="space-y-6 rv d2">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-creme shrink-0"><i class="fa-solid fa-location-dot text-sm"></i></div>
+            <div>
+              <div class="text-creme font-bold mb-1">Endereço</div>
+              <div class="text-creme/70 text-sm leading-relaxed">Av. Cláudio da Cruz Ribeiro, 3125/3127<br/>Franca - SP, 14403-830</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-creme shrink-0"><i class="fa-solid fa-phone text-sm"></i></div>
+            <div>
+              <div class="text-creme font-bold mb-1">Telefone / WhatsApp</div>
+              <div class="text-creme/70 text-sm leading-relaxed">(16) 99260-7959</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-creme shrink-0"><i class="fa-solid fa-share-nodes text-sm"></i></div>
+            <div>
+              <div class="text-creme font-bold mb-1">Redes Sociais</div>
+              <div class="flex gap-4 mt-2">
+                <a href="#" class="text-creme/70 hover:text-agua2 transition-colors text-sm underline decoration-dotted">Instagram</a>
+                <a href="#" class="text-creme/70 hover:text-agua2 transition-colors text-sm underline decoration-dotted">Facebook</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="rv d3">
+        <!-- Mapa Embed Google -->
+        <div class="w-full h-full min-h-[300px] bg-creme rounded-2xl p-2 relative">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3744.9754593466185!2d-47.3916246!3d-20.5285744!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94b0a701968d9047%3A0xc3b5e40e69af27ab!2sAv.%20Cl%C3%A1udio%20da%20Cruz%20Ribeiro%2C%203125%20-%20Franca%2C%20SP%2C%2014403-830!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" 
+            width="100%" height="100%" style="border:0; border-radius: 0.75rem;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="bg-lago2 py-8 border-t border-white/10 text-center">
+  <div class="text-creme/40 text-xs uppercase tracking-widest mb-4">Pesque & Pague Santa Clara © 2024</div>
+  <div class="text-creme/20 text-[10px]">Feito com carinho para Franca, SP</div>
+</footer>
+
+<script>
+  // ── CUSTOM CURSOR ──
+  const cur = document.getElementById('cur');
+  const ring = document.getElementById('cur-ring');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+  
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cur.style.left = mouseX + 'px';
+    cur.style.top = mouseY + 'px';
+  });
+
+  function animRing() {
+    ringX += (mouseX - ringX) * 0.15;
+    ringY += (mouseY - ringY) * 0.15;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  document.querySelectorAll('a, button, input, textarea, select, .card-hover').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('big'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('big'));
+  });
+
+  // ── SCROLL PROGRESS & NAV & BTT & DIVE PARALLAX ──
+  const progress = document.getElementById('progress');
+  const nav = document.getElementById('nav');
+  const btt = document.getElementById('btt');
+  const divingOverlay = document.getElementById('diving-overlay');
+  const heroSection = document.getElementById('topo');
+  const heroVideo = heroSection ? heroSection.querySelector('video') : null;
+  const heroContent = heroSection ? heroSection.querySelector('.relative.z-10') : null;
+  const heroWaves = heroSection ? heroSection.querySelector('svg') : null;
+  
+  window.addEventListener('scroll', () => {
+    let scrollY = window.scrollY;
+    let scrolled = (scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    progress.style.width = scrolled + '%';
+    
+    // Navbar scrolled states
+    if (scrollY > 50) {
+      nav.classList.add('nav-glass', 'py-3');
+      nav.classList.remove('py-5');
+      btt.classList.add('show');
+    } else {
+      nav.classList.remove('nav-glass', 'py-3');
+      nav.classList.add('py-5');
+      btt.classList.remove('show');
+    }
+
+    // Diving Parallax Effect
+    if (heroSection) {
+      let heroHeight = heroSection.offsetHeight;
+      if (scrollY <= heroHeight) {
+        // 1. Fade-in deep-teal underwater overlay
+        if (divingOverlay) {
+          let progress = Math.min(scrollY / (heroHeight * 0.75), 1);
+          divingOverlay.style.opacity = progress;
+        }
+        
+        // 2. Parallax scale and translate on H1/content container (sink text away)
+        if (heroContent) {
+          heroContent.style.transform = `translateY(${scrollY * -0.22}px)`;
+          heroContent.style.opacity = 1 - (scrollY / (heroHeight * 0.65));
+        }
+
+        // 3. Slow motion video parallax (recede deeper)
+        if (heroVideo) {
+          heroVideo.style.transform = `translateY(${scrollY * 0.38}px) scale(${1 + (scrollY / heroHeight) * 0.12})`;
+        }
+
+        // 4. Rising SVG waves (submerge the viewport)
+        if (heroWaves) {
+          heroWaves.style.transform = `translateY(${scrollY * -0.32}px) scaleY(${1 + (scrollY / heroHeight) * 0.5})`;
+        }
+      }
+    }
+  });
+
+  // ── REVEAL ANIMATIONS ──
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('on');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+  document.querySelectorAll('.rv, .rv-l, .rv-r, .rv-scale, .split-word, .clip-reveal').forEach(el => {
+    observer.observe(el);
+  });
+
+  // ── TABS CARDÁPIO ──
+  function switchTab(tabId) {
+    document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active-tab'));
+    document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+    
+    document.getElementById('tab-' + tabId).classList.add('active-tab');
+    document.getElementById('panel-' + tabId).classList.add('active');
+  }
+
+  // ── MODAL RESERVA ──
+  const modal = document.getElementById('modal');
+  function openModal() {
+    modal.classList.add('show');
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('modal-date').min = today;
+    document.getElementById('modal-date').value = today;
+  }
+  function closeModal() {
+    modal.classList.remove('show');
+  }
+  function submitReserva() {
+    alert("Reserva enviada com sucesso! Entraremos em contato em breve.");
+    closeModal();
+  }
+
+  // ── MOBILE MENU ──
+  const mobMenu = document.getElementById('mob-menu');
+  const mobMenuBtn = document.getElementById('mob-menu-btn');
+  
+  mobMenuBtn.addEventListener('click', () => {
+    mobMenu.classList.remove('hidden');
+    setTimeout(() => {
+      mobMenu.style.opacity = '1';
+    }, 10);
+  });
+  
+  function closeMobMenu() {
+    mobMenu.style.opacity = '0';
+    setTimeout(() => {
+      mobMenu.classList.add('hidden');
+    }, 300);
+  }
+
+  // ── NOTIFICATION ──
+  const notif = document.getElementById('notif');
+  setTimeout(() => {
+    notif.classList.add('show');
+    setTimeout(() => closeNotif(), 6000);
+  }, 2000);
+  
+  function closeNotif() {
+    notif.classList.remove('show');
+  }
+  
+  // ── COUNTERS ──
+  const countObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+        entry.target.classList.add('counted');
+        let target = parseFloat(entry.target.getAttribute('data-target'));
+        let text = entry.target.getAttribute('data-text');
+        let float = entry.target.getAttribute('data-float');
+        
+        let start = 0;
+        let duration = 2000;
+        let step = target / (duration / 16);
+        
+        let interval = setInterval(() => {
+          start += step;
+          if (start >= target) {
+            start = target;
+            clearInterval(interval);
+            if (text) {
+              entry.target.innerText = text;
+            } else if (float) {
+              entry.target.innerText = float;
+            } else {
+              entry.target.innerText = Math.floor(start);
+            }
+          } else {
+            if (float || text) {
+              entry.target.innerText = Math.floor(start);
+            } else {
+              entry.target.innerText = Math.floor(start);
+            }
+          }
+        }, 16);
+      }
+    });
+  }, { threshold: 0.5 });
+  
+  document.querySelectorAll('[data-target]').forEach(el => countObserver.observe(el));
+
+  // ── ROTATING REVIEWS ──
+  const reviews = [
+    {
+      stars: "★★★★★",
+      text: '"Lugar maravilhoso para ir com a família! Comida excelente, porções generosas e o peixe frito é divino. As crianças amaram o parquinho e ver os peixes no lago."',
+      initial: "M",
+      bg: "bg-lago2",
+      name: "Maria Silva",
+      info: "Guia Local"
+    },
+    {
+      stars: "★★★★★",
+      text: '"Atendimento nota 10! A tilápia é fresquinha e o chope bem gelado. Ambiente super agradável, arborizado. Melhor pesque pague de Franca com certeza!"',
+      initial: "J",
+      bg: "bg-laranja",
+      name: "João Carlos",
+      info: "Há 2 semanas"
+    },
+    {
+      stars: "★★★★★",
+      text: '"Ótima estrutura, a Parmegiana de tilápia é maravilhosa, serve muito bem 3 pessoas. Aos finais de semana tem música ao vivo, bem animado. Recomendo chegar cedo!"',
+      initial: "A",
+      bg: "bg-agua",
+      name: "Ana Paula",
+      info: "Há 1 mês"
+    },
+    {
+      stars: "★★★★★",
+      text: '"Espaço muito amplo, estacionamento fácil e gratuito. A costela de tambaqui é espetacular. O atendimento é rápido mesmo lotado."',
+      initial: "P",
+      bg: "bg-lago",
+      name: "Pedro Henrique",
+      info: "Guia Local"
+    },
+    {
+      stars: "★★★★★",
+      text: '"Melhor tilápia da região de Franca! Crocante por fora e muito saborosa. A música ao vivo aos sábados deixa o clima incrível."',
+      initial: "C",
+      bg: "bg-terra",
+      name: "Camila Rodrigues",
+      info: "Há 3 semanas"
+    },
+    {
+      stars: "★★★★★",
+      text: '"Lugar super arborizado, redário excelente para descansar após o almoço. O pesque e pague é muito divertido para as crianças."',
+      initial: "L",
+      bg: "bg-folha",
+      name: "Lucas Souza",
+      info: "Há 1 mês"
+    }
+  ];
+
+  let reviewIndex = 0;
+  const reviewCards = document.querySelectorAll('#reviews-grid > div');
+
+  function rotateReviews() {
+    if (!reviewCards.length) return;
+    
+    // Fade out
+    reviewCards.forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(12px)';
+      card.style.transition = 'opacity 0.6s cubic-bezier(.16,1,.3,1), transform 0.6s cubic-bezier(.16,1,.3,1)';
+    });
+
+    setTimeout(() => {
+      // Increment reviewIndex
+      reviewIndex = (reviewIndex + 3) % reviews.length;
+
+      // Update content
+      reviewCards.forEach((card, i) => {
+        const data = reviews[(reviewIndex + i) % reviews.length];
+        
+        const starsEl = card.querySelector('.text-yellow-500');
+        if (starsEl) starsEl.innerText = data.stars;
+        
+        const textEl = card.querySelector('p');
+        if (textEl) textEl.innerText = data.text;
+        
+        const avatar = card.querySelector('.flex.items-center > div:first-child');
+        if (avatar) {
+          avatar.className = `w-10 h-10 rounded-full ${data.bg} text-creme flex items-center justify-center font-bold`;
+          avatar.innerText = data.initial;
+        }
+
+        const infoDiv = card.querySelector('.flex.items-center > div:last-child');
+        if (infoDiv) {
+          const nameEl = infoDiv.querySelector('.text-terra');
+          if (nameEl) nameEl.innerText = data.name;
+          const roleEl = infoDiv.querySelector('.text-terra2');
+          if (roleEl) roleEl.innerText = data.info;
+        }
+      });
+
+      // Fade in
+      reviewCards.forEach(card => {
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+      });
+    }, 600);
+  }
+
+  // Rotate every 6 seconds
+  setInterval(rotateReviews, 6000);
+
+  // ── AUTOPLAY SLIDESHOW ──
+  const slides = document.querySelectorAll('.slide-img');
+  let currentSlide = 0;
+  setInterval(() => {
+    slides[currentSlide].classList.remove('opacity-100');
+    slides[currentSlide].classList.add('opacity-0');
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.remove('opacity-0');
+    slides[currentSlide].classList.add('opacity-100');
+  }, 4000);
+</script>
+</body>
+</html>

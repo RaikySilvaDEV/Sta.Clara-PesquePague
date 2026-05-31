@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Estrutura & Lazer — Pesque & Pague Santa Clara</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        lago: '#2E6B5E',
+        lago2: '#1a4a3f',
+        agua: '#4A9E8A',
+        agua2: '#7BBFB0',
+        terra: '#5C3D1E',
+        terra2: '#8B5E3C',
+        areia: '#F5EDD0',
+        areia2: '#EDE0B8',
+        folha: '#3A5C2A',
+        folha2: '#5C8A48',
+        laranja: '#D4641A',
+        laranja2: '#F0823A',
+        creme: '#FDF8EE',
+      },
+      fontFamily: {
+        serif: ['Playfair Display', 'serif'],
+        sans: ['Inter', 'sans-serif'],
+        script: ['Dancing Script', 'cursive'],
+      },
+    }
+  }
+}
+</script>
+<style>
+  /* ── GRAIN ── */
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9000;opacity:.03;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)'/%3E%3C/svg%3E");
+  mix-blend-mode:multiply}
+
+  /* ── CUSTOM CURSOR ── */
+  *{cursor:none}
+  #cur{position:fixed;width:10px;height:10px;background:#2E6B5E;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:background .2s,transform .1s;mix-blend-mode:multiply}
+  #cur-ring{position:fixed;width:36px;height:36px;border:1.5px solid #2E6B5E;border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s cubic-bezier(.16,1,.3,1),height .3s cubic-bezier(.16,1,.3,1),opacity .3s;opacity:.5}
+  #cur-ring.big{width:54px;height:54px;opacity:.25}
+
+  /* ── SCROLL PROGRESS ── */
+  #progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#2E6B5E,#D4641A);z-index:9997;transition:width .1s linear}
+
+  /* ── REVEAL ── */
+  .rv{opacity:0;transform:translateY(32px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1)}
+  .rv.on{opacity:1;transform:translateY(0)}
+  .rv-l{opacity:0;transform:translateX(-32px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1)}
+  .rv-l.on{opacity:1;transform:translateX(0)}
+  .rv-r{opacity:0;transform:translateX(32px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1)}
+  .rv-r.on{opacity:1;transform:translateX(0)}
+  .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+
+  /* ── CARD HOVER ── */
+  .card-hover{transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s;will-change:transform}
+  .card-hover:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(46,107,94,.15),0 0 0 1px rgba(46,107,94,.08)}
+
+  /* ── GLASSMORPHISM ── */
+  .glass{background:rgba(253,248,238,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(253,248,238,.6)}
+  .nav-glass{background:rgba(253,248,238,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(46,107,94,.12)}
+
+  /* ── MODAL ── */
+  #modal{opacity:0;pointer-events:none;transition:opacity .3s}
+  #modal.show{opacity:1;pointer-events:all}
+  #modal-box{transform:scale(.9) translateY(20px);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+  #modal.show #modal-box{transform:scale(1) translateY(0)}
+
+  ::-webkit-scrollbar{width:5px}
+  ::-webkit-scrollbar-track{background:#EDE0B8}
+  ::-webkit-scrollbar-thumb{background:#2E6B5E;border-radius:4px}
+</style>
+</head>
+<body class="font-sans bg-creme text-terra overflow-x-hidden">
+
+<!-- CURSOR -->
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<!-- SCROLL PROGRESS -->
+<div id="progress" style="width:0%"></div>
+
+<!-- RESERVA MODAL -->
+<div id="modal" class="fixed inset-0 z-50 flex items-center justify-center p-4" style="background:rgba(26,58,48,.7);backdrop-filter:blur(8px)">
+  <div id="modal-box" class="bg-creme rounded-2xl p-8 max-w-md w-full shadow-2xl relative">
+    <button onclick="closeModal()" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-terra2 hover:text-terra text-lg">✕</button>
+    <div class="text-script text-3xl text-lago mb-1">Reserva de Mesa</div>
+    <p class="text-xs text-terra2 mb-6">Para grupos acima de 10 pessoas, ligue diretamente.</p>
+    <div class="space-y-4">
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs font-semibold uppercase tracking-wider text-terra2 block mb-1">Nome</label>
+          <input type="text" placeholder="Seu nome" class="w-full border-b border-areia2 bg-transparent py-2 text-sm focus:outline-none focus:border-lago transition-colors placeholder:text-terra2/40"/>
+        </div>
+        <div>
+          <label class="text-xs font-semibold uppercase tracking-wider text-terra2 block mb-1">WhatsApp</label>
+          <input type="tel" placeholder="(16) 9 9999-9999" class="w-full border-b border-areia2 bg-transparent py-2 text-sm focus:outline-none focus:border-lago transition-colors placeholder:text-terra2/40"/>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs font-semibold uppercase tracking-wider text-terra2 block mb-1">Data</label>
+          <input type="date" id="modal-date" class="w-full border-b border-areia2 bg-transparent py-2 text-sm focus:outline-none focus:border-lago transition-colors"/>
+        </div>
+        <div>
+          <label class="text-xs font-semibold uppercase tracking-wider text-terra2 block mb-1">Pessoas</label>
+          <select class="w-full border-b border-areia2 bg-transparent py-2 text-sm focus:outline-none focus:border-lago transition-colors">
+            <option>2 pessoas</option><option>3 pessoas</option><option>4 pessoas</option>
+            <option>5 pessoas</option><option>6 pessoas</option><option>7+ pessoas</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="text-xs font-semibold uppercase tracking-wider text-terra2 block mb-1">Observações</label>
+        <textarea placeholder="Aniversário, crianças, preferências..." class="w-full border-b border-areia2 bg-transparent py-2 text-sm focus:outline-none focus:border-lago transition-colors resize-none placeholder:text-terra2/40" rows="2"></textarea>
+      </div>
+      <button onclick="submitReserva()" class="w-full bg-lago text-creme py-3 rounded-xl font-semibold text-sm tracking-wider uppercase hover:bg-lago2 transition-colors ripple mt-2">
+        Confirmar Reserva
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER / NAV -->
+<header id="nav" class="fixed top-0 left-0 right-0 z-40 py-4 px-6 md:px-12 flex items-center justify-between nav-glass">
+  <a href="index.html" class="flex items-center gap-3">
+    <div class="w-10 h-10 bg-lago rounded-full flex items-center justify-center text-creme text-sm"><i class="fa-solid fa-fish"></i></div>
+    <div>
+      <div class="font-script text-xl text-lago leading-none">Santa Clara</div>
+      <div class="text-xs text-terra2 tracking-widest uppercase leading-none">Pesque & Pague</div>
+    </div>
+  </a>
+  <nav class="hidden md:flex items-center gap-8">
+    <a href="index.html#sobre" class="text-xs font-semibold uppercase tracking-wider text-terra2 hover:text-lago transition-colors">Sobre</a>
+    <a href="cardapio.html" class="text-xs font-semibold uppercase tracking-wider text-terra2 hover:text-lago transition-colors">Cardápio</a>
+    <a href="estrutura.html" class="text-xs font-semibold uppercase tracking-wider text-lago font-bold">Estrutura</a>
+    <a href="index.html#avaliacoes" class="text-xs font-semibold uppercase tracking-wider text-terra2 hover:text-lago transition-colors">Avaliações</a>
+    <a href="index.html#contato" class="text-xs font-semibold uppercase tracking-wider text-terra2 hover:text-lago transition-colors">Contato</a>
+  </nav>
+  <div class="flex items-center gap-4">
+    <button onclick="openModal()" class="btn-mag bg-lago text-creme px-5 py-2.5 text-xs font-semibold uppercase tracking-wider hover:bg-lago2 transition-colors ripple hidden md:block">
+      Reservar Mesa
+    </button>
+    <a href="index.html" class="btn-mag border border-lago text-lago px-4 py-2 text-xs font-semibold uppercase tracking-wider hover:bg-lago hover:text-creme transition-all">
+      <i class="fa-solid fa-arrow-left"></i>
+    </a>
+  </div>
+  <button id="mob-menu-btn" class="md:hidden text-lago text-2xl">☰</button>
+</header>
+
+<!-- MOBILE MENU -->
+<div id="mob-menu" class="fixed inset-0 z-50 bg-lago2 flex flex-col items-center justify-center gap-8 hidden" style="opacity:0; transition:opacity .3s">
+  <button onclick="closeMobMenu()" class="absolute top-6 right-6 text-creme text-2xl">✕</button>
+  <a href="index.html#sobre" onclick="closeMobMenu()" class="text-creme font-serif text-2xl hover:text-agua2 transition-colors">Sobre</a>
+  <a href="cardapio.html" class="text-creme font-serif text-2xl hover:text-agua2 transition-colors">Cardápio</a>
+  <a href="estrutura.html" class="text-creme font-serif text-2xl hover:text-agua2 transition-colors">Estrutura</a>
+  <a href="index.html#avaliacoes" onclick="closeMobMenu()" class="text-creme font-serif text-2xl hover:text-agua2 transition-colors">Avaliações</a>
+  <a href="index.html#contato" onclick="closeMobMenu()" class="text-creme font-serif text-2xl hover:text-agua2 transition-colors">Contato</a>
+  <button onclick="openModal();closeMobMenu()" class="bg-laranja text-creme px-8 py-3 font-semibold uppercase tracking-wider text-sm mt-4">Reservar Mesa</button>
+</div>
+
+<!-- HERO ESTRUTURA -->
+<section class="relative pt-36 pb-20 bg-lago2 overflow-hidden flex flex-col items-center justify-center text-center px-6">
+  <!-- Imagem de fundo opaca -->
+  <div class="absolute inset-0 bg-cover bg-center opacity-15" style="background-image: url('https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1920&q=80')"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-lago2/80 via-lago2 to-lago2"></div>
+
+  <div class="relative z-10 max-w-3xl mx-auto">
+    <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-agua2 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest mb-6">
+      <i class="fa-solid fa-tree"></i> Lazer & Estrutura Completa
+    </div>
+    <h1 class="font-serif font-black text-creme leading-none mb-4" style="font-size:clamp(2.5rem,6vw,4.5rem)">
+      Nosso Espaço de <em class="text-agua2 font-normal italic">Lazer</em>
+    </h1>
+    <p class="text-creme/70 text-sm max-w-xl mx-auto leading-relaxed">
+      Projetado para oferecer o melhor dia de lazer para toda a família em Franca, SP. Conheça nossos lagos, decks suspensos, áreas de descanso, palco para shows e parquinho infantil.
+    </p>
+  </div>
+</section>
+
+<!-- CONTAINER PRINCIPAL ESTRUTURA -->
+<main class="py-16 max-w-6xl mx-auto px-6 md:px-12 space-y-24">
+
+  <!-- SETOR 1: TANQUE DE PESCA -->
+  <section class="grid md:grid-cols-2 gap-12 items-center">
+    <div class="relative rv-l">
+      <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-lago/10">
+        <img src="https://images.unsplash.com/photo-1437482078695-73f5ca6c96e2?auto=format&fit=crop&w=800&q=80" alt="Tanque de Pesca" class="w-full h-full object-cover card-hover" />
+      </div>
+      <div class="absolute -bottom-4 -right-4 bg-laranja text-creme px-4 py-2 font-serif font-bold rounded-lg shadow-lg flex items-center gap-2"><i class="fa-solid fa-fish text-base"></i> Pesca Esportiva</div>
+    </div>
+    <div class="rv d1">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-8 h-px bg-lago"></div>
+        <span class="text-xs font-bold uppercase tracking-widest text-lago">Atração Principal</span>
+      </div>
+      <h2 class="font-serif font-black text-terra text-2xl md:text-3xl leading-tight mb-4">Tanques de Pesca Profissionais</h2>
+      <p class="text-terra2 text-sm leading-relaxed mb-4">
+        O Pesque & Pague Santa Clara orgulha-se de possuir dois imensos e bem cuidados tanques de pesca particulares. Nossos lagos contam com um ecossistema equilibrado, oxigenação constante e água limpa, garantindo a saúde e a força dos peixes.
+      </p>
+      <p class="text-terra2 text-sm leading-relaxed mb-6">
+        Disponibilizamos toda a infraestrutura necessária: varas de bambu, iscas frescas, massas especiais e suportes. Nossas espécies incluem tilápias graúdas (de 1kg a 3kg), pacus combativos, tambacus e catfishes. Você pode optar pela modalidade pesque e pague ou pesca esportiva.
+      </p>
+      <div class="flex flex-wrap gap-4 text-xs font-semibold text-lago">
+        <span class="bg-lago/5 border border-lago/15 px-3 py-1.5 rounded-full"><i class="fa-solid fa-circle-check mr-1.5"></i> Varas de Aluguel</span>
+        <span class="bg-lago/5 border border-lago/15 px-3 py-1.5 rounded-full"><i class="fa-solid fa-circle-check mr-1.5"></i> Limpeza de Peixe na Hora</span>
+        <span class="bg-lago/5 border border-lago/15 px-3 py-1.5 rounded-full"><i class="fa-solid fa-circle-check mr-1.5"></i> Assistência de Monitores</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="border-t border-lago/10" />
+
+  <!-- SETOR 2: DECK PANORÂMICO -->
+  <section class="grid md:grid-cols-2 gap-12 items-center md:flex-row-reverse">
+    <div class="md:order-2 relative rv-r">
+      <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-lago/10">
+        <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80" alt="Deck Panorâmico" class="w-full h-full object-cover card-hover" />
+      </div>
+      <div class="absolute -bottom-4 -left-4 bg-lago text-creme px-4 py-2 font-serif font-bold rounded-lg shadow-lg flex items-center gap-2"><i class="fa-solid fa-mountain-sun text-base"></i> Vista Privilegiada</div>
+    </div>
+    <div class="md:order-1 rv d1">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-8 h-px bg-lago"></div>
+        <span class="text-xs font-bold uppercase tracking-widest text-lago">Conforto & Gastronomia</span>
+      </div>
+      <h2 class="font-serif font-black text-terra text-2xl md:text-3xl leading-tight mb-4">Deck de Madeira à Beira-Lago</h2>
+      <p class="text-terra2 text-sm leading-relaxed mb-4">
+        Com uma das vistas mais disputadas da região, nosso rústico deck de madeira avança elegantemente sobre o lago de pesca principal, criando o ambiente perfeito para saborear nossas delícias.
+      </p>
+      <p class="text-terra2 text-sm leading-relaxed mb-6">
+        É o local ideal para desfrutar de um almoço de domingo em família, sentindo a brisa suave do lago e apreciando o pôr do sol clássico do interior paulista. As mesas no deck possuem atendimento exclusivo de garçons e proximidade direta com a natureza. Chegue cedo para garantir o seu lugar!
+      </p>
+      <div class="flex flex-wrap gap-4 text-xs font-semibold text-lago">
+        <span class="bg-lago/5 border border-lago/15 px-3 py-1.5 rounded-full"><i class="fa-solid fa-mug-hot mr-1.5"></i> Mesas Exclusivas</span>
+        <span class="bg-lago/5 border border-lago/15 px-3 py-1.5 rounded-full"><i class="fa-solid fa-wind mr-1.5"></i> Brisa Natural Constante</span>
+        <span class="bg-lago/5 border border-lago/15 px-3 py-1.5 rounded-full"><i class="fa-solid fa-camera mr-1.5"></i> Cenário Perfeito para Fotos</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="border-t border-lago/10" />
+
+  <!-- SETOR 3: SHOWS E EVENTOS -->
+  <section class="grid md:grid-cols-2 gap-12 items-center">
+    <div class="relative rv-l">
+      <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-lago/10">
+        <img src="https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&w=800&q=80" alt="Shows ao Vivo" class="w-full h-full object-cover card-hover" />
+      </div>
+      <div class="absolute -bottom-4 -right-4 bg-laranja text-creme px-4 py-2 font-serif font-bold rounded-lg shadow-lg flex items-center gap-2"><i class="fa-solid fa-music text-base"></i> Palco Acústico</div>
+    </div>
+    <div class="rv d1">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-8 h-px bg-lago"></div>
+        <span class="text-xs font-bold uppercase tracking-widest text-lago">Entretenimento</span>
+      </div>
+      <h2 class="font-serif font-black text-terra text-2xl md:text-3xl leading-tight mb-4">Shows ao Vivo & Palco Profissional</h2>
+      <p class="text-terra2 text-sm leading-relaxed mb-4">
+        Aos finais de semana e feriados, nosso palco se enche de vida e boa música! Construímos uma estrutura de palco coberto com equipamento de som e iluminação profissionais para receber os melhores artistas locais de Franca e região.
+      </p>
+      <p class="text-terra2 text-sm leading-relaxed mb-6">
+        Nossa programação musical é variada e agrada a todos: modas de viola tradicionais que resgatam o melhor da música sertaneja de raiz, sertanejo universitário animado, clássicos da MPB e acústicos de pop rock nacional. Tudo pensado para deixar o seu almoço ainda mais animado e descontraído.
+      </p>
+      <div class="flex flex-wrap gap-4 text-xs font-semibold text-lago">
+        <span class="bg-lago/5 border border-lago/15 px-3 py-1.5 rounded-full"><i class="fa-solid fa-guitar mr-1.5"></i> Música Todo Fim de Semana</span>
+        <span class="bg-lago/5 border border-lago/15 px-3 py-1.5 rounded-full"><i class="fa-solid fa-volume-high mr-1.5"></i> Som de Alta Fidelidade</span>
+        <span class="bg-lago/5 border border-lago/15 px-3 py-1.5 rounded-full"><i class="fa-solid fa-calendar-check mr-1.5"></i> Entrada Gratuita para Clientes</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="border-t border-lago/10" />
+
+  <!-- SETOR 4: ÁREA VERDE & BOSQUE -->
+  <section class="grid md:grid-cols-2 gap-12 items-center md:flex-row-reverse">
+    <div class="md:order-2 relative rv-r">
+      <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-lago/10">
+        <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=800&q=80" alt="Área Verde" class="w-full h-full object-cover card-hover" />
+      </div>
+      <div class="absolute -bottom-4 -left-4 bg-lago text-creme px-4 py-2 font-serif font-bold rounded-lg shadow-lg flex items-center gap-2"><i class="fa-solid fa-tree text-base"></i> Contato Direto</div>
+    </div>
+    <div class="md:order-1 rv d1">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-8 h-px bg-lago"></div>
+        <span class="text-xs font-bold uppercase tracking-widest text-lago">Natureza</span>
+      </div>
+      <h2 class="font-serif font-black text-terra text-2xl md:text-3xl leading-tight mb-4">Ampla Área Verde & Redário de Descanso</h2>
+      <p class="text-terra2 text-sm leading-relaxed mb-4">
+        Valorizamos o contato direto com o meio ambiente. Nossa propriedade é rodeada por um lindo bosque arborizado com dezenas de árvores nativas, que fornecem uma sombra fresca deliciosa para caminhar ou relaxar.
+      </p>
+      <p class="text-terra2 text-sm leading-relaxed mb-6">
+        Montamos um redário completo sob as árvores do bosque. Após saborear nossa maravilhosa tilápia recheada, você pode se deitar em uma de nossas redes e curtir um momento de descanso merecido ao som dos pássaros e das folhas ao vento. É a paz do campo dentro da cidade.
+      </p>
+      <div class="flex flex-wrap gap-4 text-xs font-semibold text-lago">
+        <span class="bg-lago/5 border border-lago/15 px-3 py-1.5 rounded-full"><i class="fa-solid fa-leaf mr-1.5"></i> Sombra Natural e Ar Puro</span>
+        <span class="bg-lago/5 border border-lago/15 px-3 py-1.5 rounded-full"><i class="fa-solid fa-bed mr-1.5"></i> Redário Disponível</span>
+        <span class="bg-lago/5 border border-lago/15 px-3 py-1.5 rounded-full"><i class="fa-solid fa-dove mr-1.5"></i> Canto dos Pássaros Nativos</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="border-t border-lago/10" />
+
+  <!-- SETOR 5: PLAYGROUND -->
+  <section class="grid md:grid-cols-2 gap-12 items-center">
+    <div class="relative rv-l">
+      <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-lago/10">
+        <img src="https://images.unsplash.com/photo-1603569283847-aa295f0d016a?auto=format&fit=crop&w=800&q=80" alt="Playground Infantil" class="w-full h-full object-cover card-hover" />
+      </div>
+      <div class="absolute -bottom-4 -right-4 bg-laranja text-creme px-4 py-2 font-serif font-bold rounded-lg shadow-lg flex items-center gap-2"><i class="fa-solid fa-child text-base"></i> Área Kids</div>
+    </div>
+    <div class="rv d1">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-8 h-px bg-lago"></div>
+        <span class="text-xs font-bold uppercase tracking-widest text-lago">Espaço Infantil</span>
+      </div>
+      <h2 class="font-serif font-black text-terra text-2xl md:text-3xl leading-tight mb-4">Playground Infantil Seguro & Equipado</h2>
+      <p class="text-terra2 text-sm leading-relaxed mb-4">
+        As crianças possuem um espaço todo especial feito sob medida para a diversão delas! Nosso parquinho é completo, com balanços de madeira, casinha suspensa com ponte, escorregadores e gangorras.
+      </p>
+      <p class="text-terra2 text-sm leading-relaxed mb-6">
+        A segurança é prioridade absoluta: toda a área do playground é fechada e cercada por alambrados, garantindo que as crianças brinquem livremente na areia higienizada enquanto os pais desfrutam da refeição e do chope gelado com total tranquilidade visual das mesas.
+      </p>
+      <div class="flex flex-wrap gap-4 text-xs font-semibold text-lago">
+        <span class="bg-lago/5 border border-lago/15 px-3 py-1.5 rounded-full"><i class="fa-solid fa-shield mr-1.5"></i> Área 100% Cercada</span>
+        <span class="bg-lago/5 border border-lago/15 px-3 py-1.5 rounded-full"><i class="fa-solid fa-cubes mr-1.5"></i> Areia Fina Higienizada</span>
+        <span class="bg-lago/5 border border-lago/15 px-3 py-1.5 rounded-full"><i class="fa-solid fa-face-smile mr-1.5"></i> Brinquedos de Madeira Rústica</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="border-t border-lago/10" />
+
+  <!-- SETOR 6: ESTACIONAMENTO -->
+  <section class="grid md:grid-cols-2 gap-12 items-center md:flex-row-reverse">
+    <div class="md:order-2 relative rv-r">
+      <div class="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-lago/10">
+        <img src="https://images.unsplash.com/photo-1590674899484-d5640e854abe?auto=format&fit=crop&w=800&q=80" alt="Estacionamento" class="w-full h-full object-cover card-hover" />
+      </div>
+      <div class="absolute -bottom-4 -left-4 bg-lago text-creme px-4 py-2 font-serif font-bold rounded-lg shadow-lg flex items-center gap-2"><i class="fa-solid fa-car text-base"></i> Praticidade</div>
+    </div>
+    <div class="md:order-1 rv d1">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-8 h-px bg-lago"></div>
+        <span class="text-xs font-bold uppercase tracking-widest text-lago">Comodidade</span>
+      </div>
+      <h2 class="font-serif font-black text-terra text-2xl md:text-3xl leading-tight mb-4">Estacionamento Próprio & Gratuito</h2>
+      <p class="text-terra2 text-sm leading-relaxed mb-4">
+        Queremos que sua única preocupação seja aproveitar o dia de lazer e pescaria ao máximo. Para isso, oferecemos um amplo estacionamento privativo interno dentro de nossa propriedade com capacidade para mais de 100 veículos de passeio.
+      </p>
+      <p class="text-terra2 text-sm leading-relaxed mb-6">
+        Nosso estacionamento é totalmente gratuito para os clientes do restaurante e do pesqueiro, contando com monitoramento de portaria para assegurar a tranquilidade e a segurança do seu patrimônio durante todo o período que estiver conosco.
+      </p>
+      <div class="flex flex-wrap gap-4 text-xs font-semibold text-lago">
+        <span class="bg-lago/5 border border-lago/15 px-3 py-1.5 rounded-full"><i class="fa-solid fa-circle-dollar-to-slot mr-1.5"></i> 100% Gratuito</span>
+        <span class="bg-lago/5 border border-lago/15 px-3 py-1.5 rounded-full"><i class="fa-solid fa-car-side mr-1.5"></i> Mais de 100 Vagas Internas</span>
+        <span class="bg-lago/5 border border-lago/15 px-3 py-1.5 rounded-full"><i class="fa-solid fa-user-shield mr-1.5"></i> Portaria Monitorada</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-lago2 py-10 border-t border-white/10 text-center">
+  <div class="text-creme/40 text-xs uppercase tracking-widest mb-4">Pesque & Pague Santa Clara © 2024</div>
+  <div class="text-creme/20 text-[10px]">Feito com carinho para Franca, SP</div>
+</footer>
+
+<script>
+  // ── CUSTOM CURSOR ──
+  const cur = document.getElementById('cur');
+  const ring = document.getElementById('cur-ring');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+  
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cur.style.left = mouseX + 'px';
+    cur.style.top = mouseY + 'px';
+  });
+
+  function animRing() {
+    ringX += (mouseX - ringX) * 0.15;
+    ringY += (mouseY - ringY) * 0.15;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  document.querySelectorAll('a, button, .menu-item').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('big'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('big'));
+  });
+
+  // ── SCROLL PROGRESS & HEADER SHADOW ──
+  const progress = document.getElementById('progress');
+  const nav = document.getElementById('nav');
+  
+  window.addEventListener('scroll', () => {
+    let scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    progress.style.width = scrolled + '%';
+  });
+
+  // ── REVEAL ANIMATIONS ──
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('on');
+      }
+    });
+  }, { threshold: 0.05, rootMargin: "0px 0px -50px 0px" });
+
+  document.querySelectorAll('.rv, .rv-l, .rv-r').forEach(el => {
+    observer.observe(el);
+  });
+
+  // ── MODAL RESERVA ──
+  const modal = document.getElementById('modal');
+  function openModal() {
+    modal.classList.add('show');
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('modal-date').min = today;
+    document.getElementById('modal-date').value = today;
+  }
+  function closeModal() {
+    modal.classList.remove('show');
+  }
+  function submitReserva() {
+    alert("Reserva enviada com sucesso! Entraremos em contato em breve.");
+    closeModal();
+  }
+
+  // ── MOBILE MENU ──
+  const mobMenu = document.getElementById('mob-menu');
+  const mobMenuBtn = document.getElementById('mob-menu-btn');
+  
+  mobMenuBtn.addEventListener('click', () => {
+    mobMenu.classList.remove('hidden');
+    setTimeout(() => {
+      mobMenu.style.opacity = '1';
+    }, 10);
+  });
+  
+  function closeMobMenu() {
+    mobMenu.style.opacity = '0';
+    setTimeout(() => {
+      mobMenu.classList.add('hidden');
+    }, 300);
+  }
+</script>
+</body>
+</html>

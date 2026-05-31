@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cardápio Completo — Pesque & Pague Santa Clara</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        lago: '#2E6B5E',
+        lago2: '#1a4a3f',
+        agua: '#4A9E8A',
+        agua2: '#7BBFB0',
+        terra: '#5C3D1E',
+        terra2: '#8B5E3C',
+        areia: '#F5EDD0',
+        areia2: '#EDE0B8',
+        folha: '#3A5C2A',
+        folha2: '#5C8A48',
+        laranja: '#D4641A',
+        laranja2: '#F0823A',
+        creme: '#FDF8EE',
+      },
+      fontFamily: {
+        serif: ['Playfair Display', 'serif'],
+        sans: ['Inter', 'sans-serif'],
+        script: ['Dancing Script', 'cursive'],
+      },
+    }
+  }
+}
+</script>
+<style>
+  /* ── GRAIN ── */
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9000;opacity:.03;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)'/%3E%3C/svg%3E");
+  mix-blend-mode:multiply}
+
+  /* ── CUSTOM CURSOR ── */
+  *{cursor:none}
+  #cur{position:fixed;width:10px;height:10px;background:#2E6B5E;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:background .2s,transform .1s;mix-blend-mode:multiply}
+  #cur-ring{position:fixed;width:36px;height:36px;border:1.5px solid #2E6B5E;border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s cubic-bezier(.16,1,.3,1),height .3s cubic-bezier(.16,1,.3,1),opacity .3s;opacity:.5}
+  #cur-ring.big{width:54px;height:54px;opacity:.25}
+
+  /* ── SCROLL PROGRESS ── */
+  #progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#2E6B5E,#D4641A);z-index:9997;transition:width .1s linear}
+
+  /* ── REVEAL ── */
+  .rv{opacity:0;transform:translateY(32px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1)}
+  .rv.on{opacity:1;transform:translateY(0)}
+  .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+  .d4{transition-delay:.32s}.d5{transition-delay:.40s}
+
+  /* ── CARD HOVER ── */
+  .card-hover{transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s;will-change:transform}
+  .card-hover:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(46,107,94,.15),0 0 0 1px rgba(46,107,94,.08)}
+
+  /* ── GLASSMORPHISM ── */
+  .glass{background:rgba(253,248,238,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(253,248,238,.6)}
+  .nav-glass{background:rgba(253,248,238,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(46,107,94,.12)}
+
+  /* ── MODAL ── */
+  #modal{opacity:0;pointer-events:none;transition:opacity .3s}
+  #modal.show{opacity:1;pointer-events:all}
+  #modal-box{transform:scale(.9) translateY(20px);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+  #modal.show #modal-box{transform:scale(1) translateY(0)}
+
+  ::-webkit-scrollbar{width:5px}
+  ::-webkit-scrollbar-track{background:#EDE0B8}
+  ::-webkit-scrollbar-thumb{background:#2E6B5E;border-radius:4px}
+</style>
+</head>
+<body class="font-sans bg-creme text-terra overflow-x-hidden">
+
+<!-- CURSOR -->
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<!-- SCROLL PROGRESS -->
+<div id="progress" style="width:0%"></div>
+
+<!-- RESERVA MODAL -->
+<div id="modal" class="fixed inset-0 z-50 flex items-center justify-center p-4" style="background:rgba(26,58,48,.7);backdrop-filter:blur(8px)">
+  <div id="modal-box" class="bg-creme rounded-2xl p-8 max-w-md w-full shadow-2xl relative">
+    <button onclick="closeModal()" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-terra2 hover:text-terra text-lg">✕</button>
+    <div class="text-script text-3xl text-lago mb-1">Reserva de Mesa</div>
+    <p class="text-xs text-terra2 mb-6">Para grupos acima de 10 pessoas, ligue diretamente.</p>
+    <div class="space-y-4">
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs font-semibold uppercase tracking-wider text-terra2 block mb-1">Nome</label>
+          <input type="text" placeholder="Seu nome" class="w-full border-b border-areia2 bg-transparent py-2 text-sm focus:outline-none focus:border-lago transition-colors placeholder:text-terra2/40"/>
+        </div>
+        <div>
+          <label class="text-xs font-semibold uppercase tracking-wider text-terra2 block mb-1">WhatsApp</label>
+          <input type="tel" placeholder="(16) 9 9999-9999" class="w-full border-b border-areia2 bg-transparent py-2 text-sm focus:outline-none focus:border-lago transition-colors placeholder:text-terra2/40"/>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs font-semibold uppercase tracking-wider text-terra2 block mb-1">Data</label>
+          <input type="date" id="modal-date" class="w-full border-b border-areia2 bg-transparent py-2 text-sm focus:outline-none focus:border-lago transition-colors"/>
+        </div>
+        <div>
+          <label class="text-xs font-semibold uppercase tracking-wider text-terra2 block mb-1">Pessoas</label>
+          <select class="w-full border-b border-areia2 bg-transparent py-2 text-sm focus:outline-none focus:border-lago transition-colors">
+            <option>2 pessoas</option><option>3 pessoas</option><option>4 pessoas</option>
+            <option>5 pessoas</option><option>6 pessoas</option><option>7+ pessoas</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="text-xs font-semibold uppercase tracking-wider text-terra2 block mb-1">Observações</label>
+        <textarea placeholder="Aniversário, crianças, preferências..." class="w-full border-b border-areia2 bg-transparent py-2 text-sm focus:outline-none focus:border-lago transition-colors resize-none placeholder:text-terra2/40" rows="2"></textarea>
+      </div>
+      <button onclick="submitReserva()" class="w-full bg-lago text-creme py-3 rounded-xl font-semibold text-sm tracking-wider uppercase hover:bg-lago2 transition-colors ripple mt-2">
+        Confirmar Reserva
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER / NAV -->
+<header id="nav" class="fixed top-0 left-0 right-0 z-40 py-4 px-6 md:px-12 flex items-center justify-between nav-glass">
+  <a href="index.html" class="flex items-center gap-3">
+    <div class="w-10 h-10 bg-lago rounded-full flex items-center justify-center text-creme text-sm"><i class="fa-solid fa-fish"></i></div>
+    <div>
+      <div class="font-script text-xl text-lago leading-none">Santa Clara</div>
+      <div class="text-xs text-terra2 tracking-widest uppercase leading-none">Pesque & Pague</div>
+    </div>
+  </a>
+  <nav class="hidden md:flex items-center gap-8">
+    <a href="index.html#sobre" class="text-xs font-semibold uppercase tracking-wider text-terra2 hover:text-lago transition-colors">Sobre</a>
+    <a href="cardapio.html" class="text-xs font-semibold uppercase tracking-wider text-lago font-bold">Cardápio</a>
+    <a href="estrutura.html" class="text-xs font-semibold uppercase tracking-wider text-terra2 hover:text-lago transition-colors">Estrutura</a>
+    <a href="index.html#avaliacoes" class="text-xs font-semibold uppercase tracking-wider text-terra2 hover:text-lago transition-colors">Avaliações</a>
+    <a href="index.html#contato" class="text-xs font-semibold uppercase tracking-wider text-terra2 hover:text-lago transition-colors">Contato</a>
+  </nav>
+  <div class="flex items-center gap-4">
+    <button onclick="openModal()" class="btn-mag bg-lago text-creme px-5 py-2.5 text-xs font-semibold uppercase tracking-wider hover:bg-lago2 transition-colors ripple hidden md:block">
+      Reservar Mesa
+    </button>
+    <a href="index.html" class="btn-mag border border-lago text-lago px-4 py-2 text-xs font-semibold uppercase tracking-wider hover:bg-lago hover:text-creme transition-all">
+      <i class="fa-solid fa-arrow-left"></i>
+    </a>
+  </div>
+  <button id="mob-menu-btn" class="md:hidden text-lago text-2xl">☰</button>
+</header>
+
+<!-- MOBILE MENU -->
+<div id="mob-menu" class="fixed inset-0 z-50 bg-lago2 flex flex-col items-center justify-center gap-8 hidden" style="opacity:0; transition:opacity .3s">
+  <button onclick="closeMobMenu()" class="absolute top-6 right-6 text-creme text-2xl">✕</button>
+  <a href="index.html#sobre" onclick="closeMobMenu()" class="text-creme font-serif text-2xl hover:text-agua2 transition-colors">Sobre</a>
+  <a href="cardapio.html" class="text-creme font-serif text-2xl hover:text-agua2 transition-colors">Cardápio</a>
+  <a href="estrutura.html" class="text-creme font-serif text-2xl hover:text-agua2 transition-colors">Estrutura</a>
+  <a href="index.html#avaliacoes" onclick="closeMobMenu()" class="text-creme font-serif text-2xl hover:text-agua2 transition-colors">Avaliações</a>
+  <a href="index.html#contato" onclick="closeMobMenu()" class="text-creme font-serif text-2xl hover:text-agua2 transition-colors">Contato</a>
+  <button onclick="openModal();closeMobMenu()" class="bg-laranja text-creme px-8 py-3 font-semibold uppercase tracking-wider text-sm mt-4">Reservar Mesa</button>
+</div>
+
+<!-- HERO CARDÁPIO -->
+<section class="relative pt-36 pb-20 bg-lago2 overflow-hidden flex flex-col items-center justify-center text-center px-6">
+  <!-- Imagem de fundo opaca -->
+  <div class="absolute inset-0 bg-cover bg-center opacity-15" style="background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1920&q=80')"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-lago2/80 via-lago2 to-lago2"></div>
+
+  <div class="relative z-10 max-w-3xl mx-auto">
+    <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-agua2 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest mb-6">
+      <i class="fa-solid fa-utensils"></i> Sabores Tradicionais do Lago
+    </div>
+    <h1 class="font-serif font-black text-creme leading-none mb-4" style="font-size:clamp(2.5rem,6vw,4.5rem)">
+      Nosso Cardápio <em class="text-agua2 font-normal italic">Completo</em>
+    </h1>
+    <p class="text-creme/70 text-sm max-w-xl mx-auto leading-relaxed">
+      Cada prato é preparado com peixes fresquíssimos, pescados no próprio dia e temperados com nossa tradicional receita de família. Venha viver uma experiência inesquável à beira do lago.
+    </p>
+  </div>
+</section>
+
+<!-- NAVEGAÇÃO DE CATEGORIAS (STICKY TABS) -->
+<div class="sticky top-[73px] z-30 bg-creme border-b border-areia2 py-3 px-4 shadow-sm overflow-x-auto whitespace-nowrap scrollbar-none flex justify-center gap-2 md:gap-4">
+  <a href="#peixes" class="px-5 py-2 rounded-full border border-lago/20 text-xs font-bold uppercase tracking-wider text-terra2 hover:bg-lago/5 hover:text-lago transition-all inline-flex items-center gap-1.5"><i class="fa-solid fa-fish"></i> Peixes Principais</a>
+  <a href="#porcoes" class="px-5 py-2 rounded-full border border-lago/20 text-xs font-bold uppercase tracking-wider text-terra2 hover:bg-lago/5 hover:text-lago transition-all inline-flex items-center gap-1.5"><i class="fa-solid fa-cheese"></i> Entradas & Porções</a>
+  <a href="#bebidas" class="px-5 py-2 rounded-full border border-lago/20 text-xs font-bold uppercase tracking-wider text-terra2 hover:bg-lago/5 hover:text-lago transition-all inline-flex items-center gap-1.5"><i class="fa-solid fa-beer-mug-empty"></i> Bebidas</a>
+  <a href="#sobremesas" class="px-5 py-2 rounded-full border border-lago/20 text-xs font-bold uppercase tracking-wider text-terra2 hover:bg-lago/5 hover:text-lago transition-all inline-flex items-center gap-1.5"><i class="fa-solid fa-ice-cream"></i> Sobremesas</a>
+</div>
+
+<!-- CONTAINER PRINCIPAL CARDÁPIO -->
+<main class="py-16 max-w-6xl mx-auto px-6 md:px-12 space-y-24">
+
+  <!-- CATEGORIA 1: PEIXES E PRATOS PRINCIPAIS -->
+  <section id="peixes" class="scroll-mt-32">
+    <div class="flex items-center gap-3 mb-8 rv">
+      <div class="h-px w-8 bg-lago"></div>
+      <h2 class="font-serif font-black text-terra text-2xl md:text-3xl uppercase tracking-wide">
+        <i class="fa-solid fa-fish text-lago mr-2"></i> Peixes & Pratos Principais
+      </h2>
+      <div class="h-px flex-1 bg-lago/10"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <!-- Item 1 -->
+      <div class="menu-item bg-creme border border-lago/10 p-6 rounded-2xl card-hover flex flex-col sm:flex-row gap-5 items-center rv d1">
+        <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=150&q=80" alt="JK de Tilápia" class="w-28 h-28 rounded-xl object-cover shadow-md shrink-0" />
+        <div class="flex-1 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 mb-2">
+            <div>
+              <h3 class="font-serif font-bold text-terra text-lg"><i class="fa-solid fa-star text-laranja mr-1"></i> JK de Tilápia</h3>
+              <span class="inline-block bg-laranja/10 text-laranja text-[10px] font-bold uppercase px-2 py-0.5 rounded tracking-wider mt-0.5">Destaque do Pesque</span>
+            </div>
+            <span class="font-serif italic text-laranja text-xl font-bold">R$ 85</span>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">
+            Deliciosa tilápia inteira recheada com presunto e queijo, empanada com farinha especial e frita à perfeição. Acompanha arroz branco, batata frita crocante e salada fresca da horta. Serve 2 a 3 pessoas.
+          </p>
+        </div>
+      </div>
+
+      <!-- Item 2 -->
+      <div class="menu-item bg-creme border border-lago/10 p-6 rounded-2xl card-hover flex flex-col sm:flex-row gap-5 items-center rv d2">
+        <img src="https://images.unsplash.com/photo-1599084993091-1cb5c0721cc6?auto=format&fit=crop&w=150&q=80" alt="Porção de Tilápia" class="w-28 h-28 rounded-xl object-cover shadow-md shrink-0" />
+        <div class="flex-1 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 mb-2">
+            <div>
+              <h3 class="font-serif font-bold text-terra text-lg"><i class="fa-solid fa-trophy text-laranja mr-1"></i> Iscas de Tilápia</h3>
+              <span class="inline-block bg-lago/10 text-lago text-[10px] font-bold uppercase px-2 py-0.5 rounded tracking-wider mt-0.5">Mais Vendido</span>
+            </div>
+            <span class="font-serif italic text-laranja text-xl font-bold">R$ 65</span>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">
+            Iscas de filé de tilápia fresca empanadas e fritas na hora. Super crocante por fora e muito suculenta por dentro. Acompanha arroz, farofa artesanal, vinagrete da casa e gomos de limão.
+          </p>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="menu-item bg-creme border border-lago/10 p-6 rounded-2xl card-hover flex flex-col sm:flex-row gap-5 items-center rv d3">
+        <img src="https://images.unsplash.com/photo-1534604973900-c43ab4c2e0ab?auto=format&fit=crop&w=150&q=80" alt="Tilápia à Parmegiana" class="w-28 h-28 rounded-xl object-cover shadow-md shrink-0" />
+        <div class="flex-1 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 mb-2">
+            <h3 class="font-serif font-bold text-terra text-lg"><i class="fa-solid fa-cheese text-laranja mr-1.5"></i> Tilápia à Parmegiana</h3>
+            <span class="font-serif italic text-laranja text-xl font-bold">R$ 75</span>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">
+            Generosos filés de tilápia empanados cobertos com nosso molho de tomate caseiro artesanal e bastante queijo muçarela derretido e gratinado no forno a lenha. Acompanha arroz branco e fritas.
+          </p>
+        </div>
+      </div>
+
+      <!-- Item 4 -->
+      <div class="menu-item bg-creme border border-lago/10 p-6 rounded-2xl card-hover flex flex-col sm:flex-row gap-5 items-center rv d4">
+        <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=150&q=80" alt="Tilápia Grelhada" class="w-28 h-28 rounded-xl object-cover shadow-md shrink-0" />
+        <div class="flex-1 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 mb-2">
+            <h3 class="font-serif font-bold text-terra text-lg"><i class="fa-solid fa-fish text-lago mr-1.5"></i> Tilápia Grelhada ao Alcaparras</h3>
+            <span class="font-serif italic text-laranja text-xl font-bold">R$ 58</span>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">
+            Filé de tilápia leve grelhado com azeite de oliva e ervas finas, banhado por um delicioso molho amanteigado de alcaparras. Acompanha legumes salteados na manteiga e arroz integral.
+          </p>
+        </div>
+      </div>
+
+      <!-- Item 5 -->
+      <div class="menu-item bg-creme border border-lago/10 p-6 rounded-2xl card-hover flex flex-col sm:flex-row gap-5 items-center rv">
+        <img src="https://images.unsplash.com/photo-1534482421-64566f976cfa?auto=format&fit=crop&w=150&q=80" alt="Pacu Frito" class="w-28 h-28 rounded-xl object-cover shadow-md shrink-0" />
+        <div class="flex-1 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 mb-2">
+            <h3 class="font-serif font-bold text-terra text-lg"><i class="fa-solid fa-fish text-lago mr-1.5"></i> Pacu Frito (Postas)</h3>
+            <span class="font-serif italic text-laranja text-xl font-bold">R$ 55</span>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">
+            Postas graúdas de pacu fresco pescados direto no tanque, temperadas no alho e limão, fritas até ficarem sequinhas e crocantes. Acompanha arroz branco, farofa e vinagrete.
+          </p>
+        </div>
+      </div>
+
+      <!-- Item 6 -->
+      <div class="menu-item bg-creme border border-lago/10 p-6 rounded-2xl card-hover flex flex-col sm:flex-row gap-5 items-center rv">
+        <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=150&q=80" alt="Caldo de Piranha" class="w-28 h-28 rounded-xl object-cover shadow-md shrink-0" />
+        <div class="flex-1 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 mb-2">
+            <h3 class="font-serif font-bold text-terra text-lg"><i class="fa-solid fa-bowl-food text-lago mr-1.5"></i> Caldo de Piranha Forte</h3>
+            <span class="font-serif italic text-laranja text-xl font-bold">R$ 35</span>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">
+            O famoso caldo concentrado e afrodisíaco de piranha, cozido longamente com tomates, cebola, alho, pimenta-de-cheiro e finalizado com coentro fresco e cheiro-verde. Servido bem quente.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIA 2: ENTRADAS & PORÇÕES -->
+  <section id="porcoes" class="scroll-mt-32">
+    <div class="flex items-center gap-3 mb-8 rv">
+      <div class="h-px w-8 bg-lago"></div>
+      <h2 class="font-serif font-black text-terra text-2xl md:text-3xl uppercase tracking-wide">
+        <i class="fa-solid fa-cheese text-lago mr-2"></i> Entradas & Porções
+      </h2>
+      <div class="h-px flex-1 bg-lago/10"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <!-- Item 7 -->
+      <div class="menu-item bg-creme border border-lago/10 p-6 rounded-2xl card-hover flex flex-col sm:flex-row gap-5 items-center rv d1">
+        <img src="https://images.unsplash.com/photo-1607532941433-304659e8198a?auto=format&fit=crop&w=150&q=80" alt="Porção de Camarão" class="w-28 h-28 rounded-xl object-cover shadow-md shrink-0" />
+        <div class="flex-1 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 mb-2">
+            <h3 class="font-serif font-bold text-terra text-lg"><i class="fa-solid fa-shrimp text-laranja mr-1.5"></i> Camarão Empanado Panko</h3>
+            <span class="font-serif italic text-laranja text-xl font-bold">R$ 78</span>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">
+            Camarões selecionados e limpos, empanados individualmente na farinha Panko e fritos na hora para garantir máxima crocância. Acompanha nosso molho tártaro artesanal.
+          </p>
+        </div>
+      </div>
+
+      <!-- Item 8 -->
+      <div class="menu-item bg-creme border border-lago/10 p-6 rounded-2xl card-hover flex flex-col sm:flex-row gap-5 items-center rv d2">
+        <img src="https://images.unsplash.com/photo-1518013431117-eb1465fa5752?auto=format&fit=crop&w=150&q=80" alt="Mandioca Frita" class="w-28 h-28 rounded-xl object-cover shadow-md shrink-0" />
+        <div class="flex-1 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 mb-2">
+            <h3 class="font-serif font-bold text-terra text-lg"><i class="fa-solid fa-bowl-food text-lago mr-1.5"></i> Mandioca Frita Especial</h3>
+            <span class="font-serif italic text-laranja text-xl font-bold">R$ 28</span>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">
+            Mandiocas selecionadas, cozidas até derreter na boca e fritas até formarem uma casquinha dourada e crocante. Salpicadas com bastante queijo parmesão e cheiro-verde.
+          </p>
+        </div>
+      </div>
+
+      <!-- Item 9 -->
+      <div class="menu-item bg-creme border border-lago/10 p-6 rounded-2xl card-hover flex flex-col sm:flex-row gap-5 items-center rv d3">
+        <img src="https://images.unsplash.com/photo-1541532713592-79a0317b6b77?auto=format&fit=crop&w=150&q=80" alt="Bolinho de Tilápia" class="w-28 h-28 rounded-xl object-cover shadow-md shrink-0" />
+        <div class="flex-1 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 mb-2">
+            <h3 class="font-serif font-bold text-terra text-lg"><i class="fa-solid fa-circle text-lago mr-1.5"></i> Bolinho de Tilápia da Casa (10 un)</h3>
+            <span class="font-serif italic text-laranja text-xl font-bold">R$ 38</span>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">
+            Bolinhos fritos crocantes recheados com massa de tilápia fresca temperada com cebolinha, salsinha e um leve toque de raspas de limão. Perfeito como aperitivo!
+          </p>
+        </div>
+      </div>
+
+      <!-- Item 10 -->
+      <div class="menu-item bg-creme border border-lago/10 p-6 rounded-2xl card-hover flex flex-col sm:flex-row gap-5 items-center rv d4">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=150&q=80" alt="Torresmo de Rolo" class="w-28 h-28 rounded-xl object-cover shadow-md shrink-0" />
+        <div class="flex-1 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 mb-2">
+            <h3 class="font-serif font-bold text-terra text-lg"><i class="fa-solid fa-bacon text-laranja mr-1.5"></i> Torresmo de Rolo Pururuca</h3>
+            <span class="font-serif italic text-laranja text-xl font-bold">R$ 48</span>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">
+            Maravilhoso torresmo de rolo assado lentamente e pururucado sob alta temperatura. Carne de porco extremamente suculenta com pele crocante. Acompanha limão-caipira.
+          </p>
+        </div>
+      </div>
+
+      <!-- Item 11 -->
+      <div class="menu-item bg-creme border border-lago/10 p-6 rounded-2xl card-hover flex flex-col sm:flex-row gap-5 items-center rv">
+        <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=150&q=80" alt="Batata Frita" class="w-28 h-28 rounded-xl object-cover shadow-md shrink-0" />
+        <div class="flex-1 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 mb-2">
+            <h3 class="font-serif font-bold text-terra text-lg"><i class="fa-solid fa-cheese text-lago mr-1.5"></i> Batata Frita com Cheddar e Bacon</h3>
+            <span class="font-serif italic text-laranja text-xl font-bold">R$ 32</span>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">
+            Porção super generosa de batatas fritas do tipo canoa, cobertas por um creme de cheddar aveludado e salpicadas com cubos crocantes de bacon defumado.
+          </p>
+        </div>
+      </div>
+
+      <!-- Item 12 -->
+      <div class="menu-item bg-creme border border-lago/10 p-6 rounded-2xl card-hover flex flex-col sm:flex-row gap-5 items-center rv">
+        <img src="https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=150&q=80" alt="Bolinho de Bacalhau" class="w-28 h-28 rounded-xl object-cover shadow-md shrink-0" />
+        <div class="flex-1 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 mb-2">
+            <h3 class="font-serif font-bold text-terra text-lg"><i class="fa-solid fa-circle text-lago mr-1.5"></i> Bolinho de Bacalhau Legítimo (10 un)</h3>
+            <span class="font-serif italic text-laranja text-xl font-bold">R$ 42</span>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">
+            Deliciosos bolinhos de bacalhau artesanais, feitos segundo a receita tradicional portuguesa, crocantes por fora e extremamente macios por dentro. Acompanha molho de azeitona preta.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIA 3: BEBIDAS -->
+  <section id="bebidas" class="scroll-mt-32">
+    <div class="flex items-center gap-3 mb-8 rv">
+      <div class="h-px w-8 bg-lago"></div>
+      <h2 class="font-serif font-black text-terra text-2xl md:text-3xl uppercase tracking-wide">
+        <i class="fa-solid fa-beer-mug-empty text-lago mr-2"></i> Bebidas & Refrescos
+      </h2>
+      <div class="h-px flex-1 bg-lago/10"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <!-- Item 13 -->
+      <div class="menu-item bg-creme border border-lago/10 p-6 rounded-2xl card-hover flex flex-col sm:flex-row gap-5 items-center rv d1">
+        <img src="https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&w=150&q=80" alt="Chope Gelado" class="w-28 h-28 rounded-xl object-cover shadow-md shrink-0" />
+        <div class="flex-1 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 mb-2">
+            <h3 class="font-serif font-bold text-terra text-lg"><i class="fa-solid fa-beer-mug-empty text-lago mr-1.5"></i> Chope na Caneca Congelada</h3>
+            <span class="font-serif italic text-laranja text-lg font-bold">R$ 12</span>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">
+            Famoso chope Pilsen trincando de gelado, servido em nossa tradicional caneca de vidro congelada a zero grau. Colarinho espesso e cremoso perfeito.
+          </p>
+        </div>
+      </div>
+
+      <!-- Item 14 -->
+      <div class="menu-item bg-creme border border-lago/10 p-6 rounded-2xl card-hover flex flex-col sm:flex-row gap-5 items-center rv d2">
+        <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=150&q=80" alt="Caipirinha" class="w-28 h-28 rounded-xl object-cover shadow-md shrink-0" />
+        <div class="flex-1 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 mb-2">
+            <h3 class="font-serif font-bold text-terra text-lg"><i class="fa-solid fa-glass-water text-lago mr-1.5"></i> Caipirinha de Limão Caipira</h3>
+            <span class="font-serif italic text-laranja text-lg font-bold">R$ 22</span>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">
+            Clássica caipirinha de limão-caipira espremido com açúcar orgânico, muito gelo e cachaça artesanal da região de Franca. Também disponível com vodka ou sakê.
+          </p>
+        </div>
+      </div>
+
+      <!-- Item 15 -->
+      <div class="menu-item bg-creme border border-lago/10 p-6 rounded-2xl card-hover flex flex-col sm:flex-row gap-5 items-center rv d3">
+        <img src="https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?auto=format&fit=crop&w=150&q=80" alt="Suco Laranja" class="w-28 h-28 rounded-xl object-cover shadow-md shrink-0" />
+        <div class="flex-1 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 mb-2">
+            <h3 class="font-serif font-bold text-terra text-lg"><i class="fa-solid fa-lemon text-lago mr-1.5"></i> Suco Natural de Laranja</h3>
+            <span class="font-serif italic text-laranja text-lg font-bold">R$ 14</span>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">
+            Suco de laranja natural espremido na hora com frutas cítricas e doces colhidas localmente. Super refrescante, servido em copo generoso ou jarra de 1L.
+          </p>
+        </div>
+      </div>
+
+      <!-- Item 16 -->
+      <div class="menu-item bg-creme border border-lago/10 p-6 rounded-2xl card-hover flex flex-col sm:flex-row gap-5 items-center rv d4">
+        <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=150&q=80" alt="Soda Italiana" class="w-28 h-28 rounded-xl object-cover shadow-md shrink-0" />
+        <div class="flex-1 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 mb-2">
+            <h3 class="font-serif font-bold text-terra text-lg"><i class="fa-solid fa-glass-water-droplet text-lago mr-1.5"></i> Soda Italiana de Maçã Verde</h3>
+            <span class="font-serif italic text-laranja text-lg font-bold">R$ 16</span>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">
+            Bebida sofisticada e altamente refrescante, composta por xarope artesanal francês de maçã verde, água com gás pressurizada e pedras de gelo cristalinas.
+          </p>
+        </div>
+      </div>
+
+      <!-- Item 17 -->
+      <div class="menu-item bg-creme border border-lago/10 p-6 rounded-2xl card-hover flex flex-col sm:flex-row gap-5 items-center rv">
+        <img src="https://images.unsplash.com/photo-1600788886242-5c96aabe3757?auto=format&fit=crop&w=150&q=80" alt="Cerveja Heineken" class="w-28 h-28 rounded-xl object-cover shadow-md shrink-0" />
+        <div class="flex-1 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 mb-2">
+            <h3 class="font-serif font-bold text-terra text-lg"><i class="fa-solid fa-bottle-water text-lago mr-1.5"></i> Heineken Garrafa (600ml)</h3>
+            <span class="font-serif italic text-laranja text-lg font-bold">R$ 15</span>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">
+            Cerveja premium Heineken geladíssima, garrafa retornável de 600ml. Também possuímos Amstel, Original, Brahma, Skol e refrigerantes em lata/2L.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIA 4: SOBREMESAS -->
+  <section id="sobremesas" class="scroll-mt-32">
+    <div class="flex items-center gap-3 mb-8 rv">
+      <div class="h-px w-8 bg-lago"></div>
+      <h2 class="font-serif font-black text-terra text-2xl md:text-3xl uppercase tracking-wide">
+        <i class="fa-solid fa-ice-cream text-lago mr-2"></i> Doces & Sobremesas
+      </h2>
+      <div class="h-px flex-1 bg-lago/10"></div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <!-- Item 18 -->
+      <div class="menu-item bg-creme border border-lago/10 p-6 rounded-2xl card-hover flex flex-col sm:flex-row gap-5 items-center rv d1">
+        <img src="https://images.unsplash.com/photo-1590137876181-2a5a7e340308?auto=format&fit=crop&w=150&q=80" alt="Pudim" class="w-28 h-28 rounded-xl object-cover shadow-md shrink-0" />
+        <div class="flex-1 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 mb-2">
+            <h3 class="font-serif font-bold text-terra text-lg"><i class="fa-solid fa-cake-candles text-lago mr-1.5"></i> Pudim Caseiro Santa Clara</h3>
+            <span class="font-serif italic text-laranja text-lg font-bold">R$ 16</span>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">
+            Pudim de leite condensado super cremoso, sem furinhos, banhado em calda de caramelo brilhante e dourada. Feito na própria casa a partir de receita de família.
+          </p>
+        </div>
+      </div>
+
+      <!-- Item 19 -->
+      <div class="menu-item bg-creme border border-lago/10 p-6 rounded-2xl card-hover flex flex-col sm:flex-row gap-5 items-center rv d2">
+        <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=150&q=80" alt="Sorvete Trufado" class="w-28 h-28 rounded-xl object-cover shadow-md shrink-0" />
+        <div class="flex-1 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 mb-2">
+            <h3 class="font-serif font-bold text-terra text-lg"><i class="fa-solid fa-ice-cream text-lago mr-1.5"></i> Taça de Sorvete Trufado</h3>
+            <span class="font-serif italic text-laranja text-lg font-bold">R$ 18</span>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">
+            Taça especial contendo 3 bolas de sorvete premium (creme, chocolate holandês e morango), coberta com calda quente de chocolate belga, pedaços de castanha e chantilly fresco.
+          </p>
+        </div>
+      </div>
+
+      <!-- Item 20 -->
+      <div class="menu-item bg-creme border border-lago/10 p-6 rounded-2xl card-hover flex flex-col sm:flex-row gap-5 items-center rv d3">
+        <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=150&q=80" alt="Petit Gâteau" class="w-28 h-28 rounded-xl object-cover shadow-md shrink-0" />
+        <div class="flex-1 text-center sm:text-left">
+          <div class="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-2 mb-2">
+            <h3 class="font-serif font-bold text-terra text-lg"><i class="fa-solid fa-cookie text-lago mr-1.5"></i> Bolo Quente com Sorvete (Petit Gâteau)</h3>
+            <span class="font-serif italic text-laranja text-lg font-bold">R$ 22</span>
+          </div>
+          <p class="text-terra2 text-sm leading-relaxed">
+            Bolinho quente de chocolate belga com recheio cremoso e escorregadio que derrete ao corte. Servido com duas generosas bolas de sorvete artesanal de creme.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-lago2 py-10 border-t border-white/10 text-center">
+  <div class="text-creme/40 text-xs uppercase tracking-widest mb-4">Pesque & Pague Santa Clara © 2024</div>
+  <div class="text-creme/20 text-[10px]">Feito com carinho para Franca, SP</div>
+</footer>
+
+<script>
+  // ── CUSTOM CURSOR ──
+  const cur = document.getElementById('cur');
+  const ring = document.getElementById('cur-ring');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+  
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cur.style.left = mouseX + 'px';
+    cur.style.top = mouseY + 'px';
+  });
+
+  function animRing() {
+    ringX += (mouseX - ringX) * 0.15;
+    ringY += (mouseY - ringY) * 0.15;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  document.querySelectorAll('a, button, .menu-item').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('big'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('big'));
+  });
+
+  // ── SCROLL PROGRESS & HEADER SHADOW ──
+  const progress = document.getElementById('progress');
+  const nav = document.getElementById('nav');
+  
+  window.addEventListener('scroll', () => {
+    let scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    progress.style.width = scrolled + '%';
+  });
+
+  // ── REVEAL ANIMATIONS ──
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('on');
+      }
+    });
+  }, { threshold: 0.05, rootMargin: "0px 0px -50px 0px" });
+
+  document.querySelectorAll('.rv').forEach(el => {
+    observer.observe(el);
+  });
+
+  // ── MODAL RESERVA ──
+  const modal = document.getElementById('modal');
+  function openModal() {
+    modal.classList.add('show');
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('modal-date').min = today;
+    document.getElementById('modal-date').value = today;
+  }
+  function closeModal() {
+    modal.classList.remove('show');
+  }
+  function submitReserva() {
+    alert("Reserva enviada com sucesso! Entraremos em contato em breve.");
+    closeModal();
+  }
+
+  // ── MOBILE MENU ──
+  const mobMenu = document.getElementById('mob-menu');
+  const mobMenuBtn = document.getElementById('mob-menu-btn');
+  
+  mobMenuBtn.addEventListener('click', () => {
+    mobMenu.classList.remove('hidden');
+    setTimeout(() => {
+      mobMenu.style.opacity = '1';
+    }, 10);
+  });
+  
+  function closeMobMenu() {
+    mobMenu.style.opacity = '0';
+    setTimeout(() => {
+      mobMenu.classList.add('hidden');
+    }, 300);
+  }
+</script>
+</body>
+</html>
