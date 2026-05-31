@@ -258,16 +258,21 @@
   function rotateReviews() {
     if (!reviewCards.length) return;
     
-    // Fade out
+    // Fade out only visible cards to prevent flickering and off-screen layout thrashing
     reviewCards.forEach(card => {
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(12px)';
-      card.style.transition = 'opacity 0.6s cubic-bezier(.16,1,.3,1), transform 0.6s cubic-bezier(.16,1,.3,1)';
+      const isHidden = window.getComputedStyle(card).display === 'none';
+      if (!isHidden) {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(12px)';
+        card.style.transition = 'opacity 0.6s cubic-bezier(.16,1,.3,1), transform 0.6s cubic-bezier(.16,1,.3,1)';
+      }
     });
 
     setTimeout(() => {
-      // Increment reviewIndex
-      reviewIndex = (reviewIndex + 3) % reviews.length;
+      // Responsive step: 1-by-1 rotation on mobile, 3-by-3 rotation on desktop
+      const isMobile = window.innerWidth < 768;
+      const step = isMobile ? 1 : 3;
+      reviewIndex = (reviewIndex + step) % reviews.length;
 
       // Update content
       reviewCards.forEach((card, i) => {
@@ -294,10 +299,13 @@
         }
       });
 
-      // Fade in
+      // Fade in only the active visible cards
       reviewCards.forEach(card => {
-        card.style.opacity = '1';
-        card.style.transform = 'translateY(0)';
+        const isHidden = window.getComputedStyle(card).display === 'none';
+        if (!isHidden) {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }
       });
     }, 600);
   }
