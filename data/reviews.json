@@ -1,0 +1,50 @@
+[
+  {
+    "stars": "★★★★★",
+    "text": "\"Lugar maravilhoso para ir com a família! Comida excelente, porções generosas e o peixe frito é divino. As crianças amaram o parquinho e ver os peixes no lago.\"",
+    "initial": "M",
+    "bg": "bg-lago2",
+    "name": "Maria Silva",
+    "info": "Guia Local"
+  },
+  {
+    "stars": "★★★★★",
+    "text": "\"Atendimento nota 10! A tilápia é fresquinha e o chope bem gelado. Ambiente super agradável, arborizado. Melhor pesque pague de Franca com certeza!\"",
+    "initial": "J",
+    "bg": "bg-laranja",
+    "name": "João Carlos",
+    "info": "Há 2 semanas"
+  },
+  {
+    "stars": "★★★★★",
+    "text": "\"Ótima estrutura, a Parmegiana de tilápia é maravilhosa, serve muito bem 3 pessoas. Aos finais de semana tem música ao vivo, bem animado. Recomendo chegar cedo!\"",
+    "initial": "A",
+    "bg": "bg-agua",
+    "name": "Ana Paula",
+    "info": "Há 1 mês"
+  },
+  {
+    "stars": "★★★★★",
+    "text": "\"Espaço muito amplo, estacionamento fácil e gratuito. A costela de tambaqui é espetacular. O atendimento é rápido mesmo lotado.\"",
+    "initial": "P",
+    "bg": "bg-lago",
+    "name": "Pedro Henrique",
+    "info": "Guia Local"
+  },
+  {
+    "stars": "★★★★★",
+    "text": "\"Melhor tilápia da região de Franca! Crocante por fora e muito saborosa. A música ao vivo aos sábados deixa o clima incrível.\"",
+    "initial": "C",
+    "bg": "bg-terra",
+    "name": "Camila Rodrigues",
+    "info": "Há 3 semanas"
+  },
+  {
+    "stars": "★★★★★",
+    "text": "\"Lugar super arborizado, redário excelente para descansar após o almoço. O pesque e pague é muito divertido para as crianças.\"",
+    "initial": "L",
+    "bg": "bg-folha",
+    "name": "Lucas Souza",
+    "info": "Há 1 mês"
+  }
+]
