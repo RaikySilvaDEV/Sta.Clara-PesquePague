@@ -175,10 +175,12 @@
     </div>
 
     <!-- Scroll indicator -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 z-20 rv" style="transition-delay:.8s">
-      <span class="text-creme/40 text-xs tracking-widest uppercase">Descer</span>
-      <div class="w-5 h-8 border border-creme/30 rounded-full flex justify-center pt-1.5">
-        <div class="w-1 h-2 bg-creme/50 rounded-full scroll-dot"></div>
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
+      <div class="flex flex-col items-center gap-1.5 rv" style="transition-delay:.8s">
+        <span class="text-creme/40 text-xs tracking-widest uppercase">Descer</span>
+        <div class="w-5 h-8 border border-creme/30 rounded-full flex justify-center pt-1.5">
+          <div class="w-1 h-2 bg-creme/50 rounded-full scroll-dot"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -336,15 +338,8 @@
       <p class="text-terra2 mt-3 rv d2 max-w-lg mx-auto">R$ 40 – R$ 120 por pessoa · Tudo feito com peixe fresco do dia</p>
     </div>
 
-    <!-- Tabs -->
-    <div class="flex flex-wrap justify-center gap-2 mb-10 rv d2">
-      <button onclick="switchTab('peixes')" id="tab-peixes" class="menu-tab active-tab px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all"><i class="fa-solid fa-fish mr-1.5"></i> Peixes</button>
-      <button onclick="switchTab('porcoes')" id="tab-porcoes" class="menu-tab px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all"><i class="fa-solid fa-cheese mr-1.5"></i> Porções</button>
-      <button onclick="switchTab('bebidas')" id="tab-bebidas" class="menu-tab px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all"><i class="fa-solid fa-beer-mug-empty mr-1.5"></i> Bebidas</button>
-      <button onclick="switchTab('sobremesas')" id="tab-sobremesas" class="menu-tab px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all"><i class="fa-solid fa-ice-cream mr-1.5"></i> Sobremesas</button>
-    </div>
-    <!-- Peixes -->
-    <div id="panel-peixes" class="menu-panel active grid md:grid-cols-2 gap-4">
+    <!-- Previa do cardapio -->
+    <div class="grid md:grid-cols-2 gap-4">
       <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
         <img src="https://images.unsplash.com/photo-1599084993091-1cb5c0721cc6?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
         <div class="flex-1">
@@ -394,10 +389,7 @@
           <p class="text-terra2 text-sm leading-relaxed">Delicioso filé de tilápia empanado, coberto com molho de tomate artesanal e muito queijo derretido. Acompanha arroz e fritas.</p>
         </div>
       </div>
-    </div>
-
-    <!-- Porções -->
-    <div id="panel-porcoes" class="menu-panel grid md:grid-cols-2 gap-4">
+      
       <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
         <img src="https://images.unsplash.com/photo-1607532941433-304659e8198a?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
         <div class="flex-1">
@@ -417,100 +409,6 @@
             <div class="font-serif italic text-laranja text-lg font-bold">R$ 48</div>
           </div>
           <p class="text-terra2 text-sm leading-relaxed">Frango a passarinho frito, crocante e temperado com alho e limão. Para quem prefere uma opção fora do peixe.</p>
-        </div>
-      </div>
-      
-      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
-        <img src="https://images.unsplash.com/photo-1518013431117-eb1465fa5752?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
-        <div class="flex-1">
-          <div class="flex justify-between items-start mb-2">
-            <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-bowl-food text-lago mr-1.5"></i> Mandioca Frita</div>
-            <div class="font-serif italic text-laranja text-lg font-bold">R$ 28</div>
-          </div>
-          <p class="text-terra2 text-sm leading-relaxed">Mandioca cozida e frita, dourada e crocante. Com sal grosso e molho da casa. Ótima entrada para compartilhar.</p>
-        </div>
-      </div>
-      
-      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
-        <img src="https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
-        <div class="flex-1">
-          <div class="flex justify-between items-start mb-2">
-            <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-circle text-lago mr-1.5"></i> Bolinho de Bacalhau</div>
-            <div class="font-serif italic text-laranja text-lg font-bold">R$ 42</div>
-          </div>
-          <p class="text-terra2 text-sm leading-relaxed">Bolinhos artesanais de bacalhau, crocantes por fora e cremosos por dentro. Servido com molho de azeitona.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Bebidas -->
-    <div id="panel-bebidas" class="menu-panel grid md:grid-cols-2 gap-4">
-      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
-        <img src="https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
-        <div class="flex-1">
-          <div class="flex justify-between items-start mb-2">
-            <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-beer-mug-empty text-lago mr-1.5"></i> Chope Gelado</div>
-            <div class="font-serif italic text-laranja text-lg font-bold">R$ 12</div>
-          </div>
-          <p class="text-terra2 text-sm leading-relaxed">O chope mais gelado de Franca! Pilsen ou Weiss, tirado na hora com colarinho perfeito.</p>
-        </div>
-      </div>
-      
-      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
-        <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
-        <div class="flex-1">
-          <div class="flex justify-between items-start mb-2">
-            <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-glass-water text-lago mr-1.5"></i> Caipirinha</div>
-            <div class="font-serif italic text-laranja text-lg font-bold">R$ 22</div>
-          </div>
-          <p class="text-terra2 text-sm leading-relaxed">Caipirinha de limão, morango ou maracujá. Cachaça artesanal ou vodka. Dose generosa, preço justo.</p>
-        </div>
-      </div>
-      
-      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
-        <img src="https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
-        <div class="flex-1">
-          <div class="flex justify-between items-start mb-2">
-            <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-lemon text-lago mr-1.5"></i> Suco Natural</div>
-            <div class="font-serif italic text-laranja text-lg font-bold">R$ 14</div>
-          </div>
-          <p class="text-terra2 text-sm leading-relaxed">Sucos naturais de frutas da estação. Laranja, maracujá, manga, goiaba. Frescos e sem adição de açúcar.</p>
-        </div>
-      </div>
-      
-      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
-        <img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
-        <div class="flex-1">
-          <div class="flex justify-between items-start mb-2">
-            <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-bottle-water text-lago mr-1.5"></i> Refrigerante</div>
-            <div class="font-serif italic text-laranja text-lg font-bold">R$ 8</div>
-          </div>
-          <p class="text-terra2 text-sm leading-relaxed">Coca-Cola, Guaraná, Sprite, Fanta. Lata ou long neck bem gelados para toda a família.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sobremesas -->
-    <div id="panel-sobremesas" class="menu-panel grid md:grid-cols-2 gap-4">
-      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
-        <img src="https://images.unsplash.com/photo-1590137876181-2a5a7e340308?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
-        <div class="flex-1">
-          <div class="flex justify-between items-start mb-2">
-            <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-cake-candles text-lago mr-1.5"></i> Pudim Caseiro</div>
-            <div class="font-serif italic text-laranja text-lg font-bold">R$ 16</div>
-          </div>
-          <p class="text-terra2 text-sm leading-relaxed">Pudim de leite condensado feito na casa, cremoso e com calda de caramelo.</p>
-        </div>
-      </div>
-      
-      <div class="menu-item bg-creme border border-lago/10 p-6 card-hover group flex gap-4">
-        <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-lg object-cover shadow-md shrink-0 hidden sm:block" />
-        <div class="flex-1">
-          <div class="flex justify-between items-start mb-2">
-            <div class="font-serif font-bold text-terra text-lg group-hover:text-lago transition-colors"><i class="fa-solid fa-cookie text-lago mr-1.5"></i> Bolo do Dia</div>
-            <div class="font-serif italic text-laranja text-lg font-bold">R$ 12</div>
-          </div>
-          <p class="text-terra2 text-sm leading-relaxed">Bolo caseiro assado todo dia de manhã. Sabores variados: laranja, cenoura, chocolate.</p>
         </div>
       </div>
     </div>
@@ -538,8 +436,8 @@
       </h2>
     </div>
 
-    <!-- Grid mosaico de fotos / estrutura -->
-    <div class="grid grid-cols-12 grid-rows-3 gap-3" style="height:520px">
+    <!-- Desktop Mosaic Layout (hidden on mobile, visible on desktop) -->
+    <div class="hidden md:grid grid-cols-12 grid-rows-3 gap-3" style="height:520px">
       <!-- Imagem Tanque -->
       <div class="col-span-4 row-span-2 rounded-xl flex items-center justify-center relative overflow-hidden group rv-l card-hover bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1437482078695-73f5ca6c96e2?auto=format&fit=crop&w=800&q=80')">
         <div class="absolute inset-0 bg-lago2/60 group-hover:bg-lago2/40 transition-colors"></div>
@@ -592,6 +490,63 @@
         <div class="text-center p-4">
           <i class="fa-solid fa-motorcycle text-3xl mb-1.5 text-terra"></i>
           <div class="font-serif font-bold text-terra">Delivery</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Custom Grid Layout (hidden on desktop, beautiful on mobile) -->
+    <div class="grid grid-cols-2 gap-3 md:hidden">
+      <!-- Imagem Tanque -->
+      <div class="col-span-2 aspect-[16/9] rounded-xl flex items-center justify-center relative overflow-hidden group rv-l card-hover bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1437482078695-73f5ca6c96e2?auto=format&fit=crop&w=600&q=80')">
+        <div class="absolute inset-0 bg-lago2/60 group-hover:bg-lago2/40 transition-colors"></div>
+        <div class="text-center relative z-10 p-4 text-creme">
+          <i class="fa-solid fa-fish text-3xl mb-2 drop-shadow-md text-agua2"></i>
+          <div class="font-serif font-bold text-lg drop-shadow-md">Tanque de Pesca</div>
+          <p class="text-creme/90 text-xs mt-1 leading-relaxed drop-shadow-md">Lago privativo para pesca esportiva.</p>
+        </div>
+      </div>
+      <!-- Imagem Área Verde -->
+      <div class="col-span-1 aspect-[4/3] rounded-xl flex items-center justify-center relative overflow-hidden group rv card-hover bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400&q=80')">
+        <div class="absolute inset-0 bg-folha2/50 group-hover:bg-folha2/30 transition-colors rounded-xl"></div>
+        <div class="text-center p-4 relative z-10 text-creme">
+          <i class="fa-solid fa-tree text-2xl mb-1 drop-shadow-md text-agua2"></i>
+          <div class="font-serif font-bold text-sm drop-shadow-md">Área Verde</div>
+        </div>
+      </div>
+      <!-- Imagem Playground -->
+      <div class="col-span-1 aspect-[4/3] rounded-xl flex items-center justify-center relative overflow-hidden group rv d1 card-hover bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1603569283847-aa295f0d016a?auto=format&fit=crop&w=400&q=80')">
+        <div class="absolute inset-0 bg-agua/60 group-hover:bg-agua/40 transition-colors rounded-xl"></div>
+        <div class="text-center p-4 relative z-10 text-creme">
+          <i class="fa-solid fa-child text-2xl mb-1 drop-shadow-md text-agua2"></i>
+          <div class="font-serif font-bold text-sm drop-shadow-md">Playground</div>
+        </div>
+      </div>
+      <!-- Imagem Shows -->
+      <div class="col-span-2 aspect-[16/9] rounded-xl flex items-center justify-center relative overflow-hidden group rv-r card-hover bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&w=600&q=80')">
+        <div class="absolute inset-0 bg-laranja2/60 group-hover:bg-laranja2/40 transition-colors rounded-xl"></div>
+        <div class="text-center p-4 relative z-10 text-creme">
+          <i class="fa-solid fa-music text-3xl mb-1.5 drop-shadow-md text-agua2"></i>
+          <div class="font-serif font-bold text-lg drop-shadow-md">Shows ao Vivo</div>
+          <p class="text-creme/90 text-xs mt-1 leading-relaxed drop-shadow-md">Música ao vivo toda semana no palco</p>
+        </div>
+      </div>
+      
+      <!-- Icon Blocks Row -->
+      <div class="col-span-2 grid grid-cols-3 gap-2.5 mt-0.5">
+        <!-- Estacionamento -->
+        <div class="bg-terra/10 rounded-xl flex flex-col items-center justify-center p-3 text-center rv d2 card-hover">
+          <i class="fa-solid fa-car text-2xl mb-1.5 text-terra"></i>
+          <div class="font-serif font-bold text-terra2 text-[10px] leading-tight">Estacionamento</div>
+        </div>
+        <!-- Para Viagem -->
+        <div class="bg-lago/10 rounded-xl flex flex-col items-center justify-center p-3 text-center rv d3 card-hover">
+          <i class="fa-solid fa-box-open text-2xl mb-1.5 text-lago"></i>
+          <div class="font-serif font-bold text-lago text-[10px] leading-tight">Para Viagem</div>
+        </div>
+        <!-- Delivery -->
+        <div class="bg-areia2 rounded-xl flex flex-col items-center justify-center p-3 text-center rv d4 card-hover">
+          <i class="fa-solid fa-motorcycle text-2xl mb-1.5 text-terra"></i>
+          <div class="font-serif font-bold text-terra text-[10px] leading-tight">Delivery</div>
         </div>
       </div>
     </div>
