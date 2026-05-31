@@ -35,3 +35,12 @@
   ::-webkit-scrollbar{width:5px}
   ::-webkit-scrollbar-track{background:#EDE0B8}
   ::-webkit-scrollbar-thumb{background:#2E6B5E;border-radius:4px}
+
+  /* Hide scrollbar for scrollbar-none class */
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-none {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
